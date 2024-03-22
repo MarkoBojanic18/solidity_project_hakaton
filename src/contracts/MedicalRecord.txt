@@ -1,0 +1,80 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+
+contract MedicalRecord{
+    uint256 private id; // unique identification number of medical record
+    string private typeOfRecord; //da li je operacija, alergija, hronicna bolest, povreda
+    string private description; //doktorova zapazanja
+    address private doctorSignature; //adresa doktora koji je napravio record
+    uint private date_time_of_record; //datum kada je napravljen record
+    Recipe[] private recipes; // lista recepata
+    address private patient; // address of patiente
+
+    struct Recipe {
+        string medicine; //lek
+        uint weight; //gramaza leka
+        string description_for_usage; //uputstvo za koriscenje leka
+    }
+    
+
+    constructor(uint _id, string memory typeOfRec, string memory desc, address docSignature, address _patient){
+        id = _id;
+        typeOfRecord = typeOfRec;
+        description = desc;
+        doctorSignature = docSignature;
+        date_time_of_record = block.timestamp;
+        patient = _patient;
+    }
+
+        function getID() public view returns(uint256){
+        return id;
+        }
+
+        function getTypeOfRecord() public view returns(string memory){
+            return typeOfRecord;
+        }
+
+        function setTypeOfRecord(string memory tyOR) public {
+            typeOfRecord = tyOR;
+        }
+
+        function getDescription() public view returns(string memory){
+            return description;
+        }
+
+        function setDescription(string memory desc) public {
+            description = desc;
+        }
+
+        function getDoctorSignature() public view returns(address){
+            return doctorSignature;
+        }
+
+        function setDoctorSignature(address docSig) public {
+            doctorSignature = docSig;
+        }
+
+        function getDateTimeOfRecord() public view returns(uint){
+            return date_time_of_record;
+        }
+
+        function addRecipeToTheList(string memory med, uint weig, string memory desc) public  {
+            Recipe memory recipe = Recipe(med,weig,desc);
+            recipes.push(recipe);
+        }
+
+        function getRecipeList() public view returns(Recipe[] memory){
+            return recipes;
+        }
+
+         function getPatient() public view returns(address){
+            return patient;
+        }
+
+        function setPatient(address addressPatient) public {
+            patient = addressPatient;
+        }
+
+        
+
+}

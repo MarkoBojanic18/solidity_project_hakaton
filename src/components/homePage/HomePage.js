@@ -10,25 +10,21 @@ import PatientABI from "../../contracts/Patient.json";
 
 function HomePage() {
   const patient = sessionStorage.getItem("patient");
+  const RecordFactoryAddress = sessionStorage.getItem("RecordFactoryAddress");
+
   const [patient_account, setPatientAccount] = useState("");
   const [first_name, setPatientFirstName] = useState("");
   const [last_name, setPatientLastName] = useState("");
   const [password, setPatientPassword] = useState("");
   const [gender, setPatientGender] = useState("");
-  const [year_of_birth, setPatientYearOfBirth] = useState("");
-  const [unique_in, setPatientUniqueIN] = useState("");
+  const [year_of_birth, setPatientYearOfBirth] = useState(0);
+  const [unique_in, setPatientUniqueIN] = useState(0);
 
   const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
 
-  const RecordFactoryAddress = "0xFBa954D3AaB1f39719424849F4Cb71e9A9F78f57";
   const sepoliaRPCUrl =
     "https://sepolia.infura.io/v3/67bc1009f5a547cc978659e13579ddf0";
-
-  // const [dataFromNavbar, setDataFromNavbar] = useState(null);
-  // const handleDataFromNavbar = (data) => {
-  //   setDataFromNavbar(data);
-  // }
 
   const connectWallet = async () => {
     try {
@@ -118,7 +114,7 @@ function HomePage() {
     <div className="home-page">
       <NavbarHomePage
         // sendDataToParent={handleDataFromNavbar}
-        account={patient_account}
+        patient_account={patient_account}
         first_name={first_name}
         last_name={last_name}
         password={password}
@@ -126,12 +122,17 @@ function HomePage() {
         year_of_birth={year_of_birth}
         unique_in={unique_in}
       />
+        <li>RODJENJE:{year_of_birth}</li>
+        <li>POL:{gender}</li>
       <button onClick={laodPatientData}>Click</button>
       <div className="services-container">
-        <ServicesList></ServicesList>
+        <ServicesList
+        RecordFactoryAddress={RecordFactoryAddress}
+        patient_account={patient_account}
+        web3={web3}
+        ></ServicesList>
         <ServicePanel></ServicePanel>
       </div>
-      <UserModal></UserModal>
     </div>
   );
 }

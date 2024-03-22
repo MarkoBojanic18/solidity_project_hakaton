@@ -2,33 +2,42 @@
 pragma solidity ^0.8.4;
 
 contract Patient{
-    address private id_account;
-    string private first_name;
-    string private last_name;
-    string private password;
-    string private gender;
-    uint private year_of_birth;
-    uint private unique_in;
-    address private mainDoctor;
-    address[] private doctors_with_access;
-    EmergencyPerson private emergencyPerson;
-    Insurance[] private insurances;
-    bool private donor;
-    string[] private donations;
+    address private id_account;  //address of patient
+    string private first_name;   //first name of patient
+    string private last_name;    //last name of patinet
+    string private password;     //password
+    string private gender;         //gender {male,female}
+    uint private year_of_birth;    // in format {1999}
+    uint private unique_in;         //JMBG
+    string private blood_type;       // {A+, A-, B+, B-, AB+, AB-, O+, O-}
+    uint private height;             // in format 185 (measure will be cm}
+    uint private weight;               // in fromat 80 (measur will be kg}
+    address private mainDoctor;         // address of the patient's main doctor
+    address[] private doctors_with_access;   // list of the doctors which can see patient's medical records
+    EmergencyPerson private emergencyPerson;   //a person who will be contacted if it is neccessary to make a decision instead of patient
+    Insurance[] private insurances;            //list of insurances which patinet takes
+    Immunisation[] private immunisations;        //list of immunisations which patient got
+    bool private donor;                         //if patient is donor {true, false}
+    string[] private donations;               // list of organs which patient will donate
     
     struct EmergencyPerson{
-        string first_name;
-        string last_name;
-        string contact;
+        string first_name;  // first name of emergency person
+        string last_name;   // last name of emergency person
+        string contact;    // phone number of emergency person
     }
 
     struct Insurance{
-         string typeOfInsurance;  //naziv osiguranja
-        string insuranceCoverage; // pokrivenost osiguranja
-        bool insuranceIsPaid; // da li je placeno osiguranje
+         string typeOfInsurance;  //type of insurance {life, non-life,...}
+        string insuranceCoverage; // coverage of insurance {legs, arms, body, heartattack,...}
+        bool insuranceIsPaid; // when patient chooses one insurance it will be false, but when patient pays it then it will becomes true
     } 
 
-    constructor (address id, string memory _first_name, string memory _last_name, string memory _password, string memory _gender, uint _year_of_birth, uint _unique_in){
+    struct Immunisation{
+        string typeOfImmun;     //type/name of immunisation which patient got
+        uint date_time_of_imun;  //date and time when patient got immunisation
+    }
+
+    constructor (address id, string memory _first_name, string memory _last_name, string memory _password, string memory _gender, uint _year_of_birth, uint _unique_in, string memory _blood_type, uint _height, uint _weight){
         id_account = id;
         first_name = _first_name;
         last_name = _last_name;
@@ -36,6 +45,10 @@ contract Patient{
         gender = _gender;
         year_of_birth = _year_of_birth;
         unique_in = _unique_in;
+        blood_type = _blood_type;
+        height = _height;
+        weight = _weight;
+        donor = false;
     }
 
     function getPatienceAccount() public view returns(address){
@@ -94,6 +107,30 @@ contract Patient{
         unique_in = uin;
     }
 
+function getBloodType() public view returns(string memory){ 
+        return blood_type;
+    }
+
+    function setBloodType(string memory _blood_type) public {
+        blood_type = _blood_type;
+    }
+
+    function getHeight() public view returns(uint){ 
+        return height;
+    }
+
+    function setHeight(uint _height) public {
+        height = _height;
+    }
+
+    function getWeight() public view returns(uint){ 
+        return weight;
+    }
+
+    function setWeight(uint _weight) public {
+        weight = _weight;
+    }
+
      function getMainDoctor() public view returns(address){ 
         return mainDoctor;
     }
@@ -106,6 +143,9 @@ contract Patient{
         return doctors_with_access;
     }
 
+
+    //this function only checks for another functions if doctor is in the list and returns false
+    // if it isn't and true if doctor is in the list.
     function doesDoctorWithAccessExistInTheList(address doctor) private view returns(bool){
          uint arrayLength = doctors_with_access.length;
 
@@ -118,10 +158,28 @@ contract Patient{
         return false;
     }
 
+    //this function adds doctor to the list of doctors which can access patient's medical records
+    //if doctor hasn't been already added to the list.
     function addDoctorWithAccess(address doctor) public {
        if(!doesDoctorWithAccessExistInTheList(doctor)){
         doctors_with_access.push(doctor);
        }
+    }
+
+    //this function throws doctor from the list of doctors who can see patient's medical record.
+    function throwDoctorFromTheListWithAccess(address doctor)public{
+       uint arrayLength = doctors_with_access.length;
+
+        for(uint i = 0; i < arrayLength; i++) {
+        if(doctors_with_access[i] == doctor) {
+            // Remove the doctor from the array
+            // Move the last element to the position to be deleted
+            doctors_with_access[i] = doctors_with_access[arrayLength - 1];
+            // Remove the last element
+            doctors_with_access.pop();
+            return; // Exit the function once the doctor is removed
+        }
+    }
     }
 
     function getEmergencyPerson() public view returns (EmergencyPerson memory) {
@@ -140,7 +198,7 @@ contract Patient{
     function addInsuranceToTheList(string memory _typeOfInsurance, string memory _insuranceCoverage) public  {
             Insurance memory insurance = Insurance(_typeOfInsurance,_insuranceCoverage,false);
             insurances.push(insurance);
-        }
+    }
 
     function getInsurancesList() public view returns(Insurance[] memory){
             return insurances;
@@ -148,14 +206,31 @@ contract Patient{
 
     function addDonationToTheList(string memory organ) public  {
             donations.push(organ);
-        }
+            setDonor(true);
+    }
 
     function getDonationsList() public view returns(string[] memory){
             return donations;
     }
-    
 
-    
+    function getDonor() public view returns(bool) {
+        return donor;
+    }
 
+     function setDonor(bool _donor) public{ 
+       donor = _donor;
+    }
+
+
+
+    function addImmunisationToTheList(string memory _typeOfImmun, uint _date_time_of_imun) public  {
+            Immunisation memory immunisation = Immunisation(_typeOfImmun,_date_time_of_imun);
+            immunisations.push(immunisation);
+    }
+
+    function getImmunisationList() public view returns(Immunisation[] memory){
+            return immunisations;
+    }
+    
 
 }

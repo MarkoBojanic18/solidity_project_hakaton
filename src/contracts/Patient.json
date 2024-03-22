@@ -1,5 +1,5 @@
 {
-  "contractName": "RecordFactory",
+  "contractName": "Patient",
   "abi": [
     {
       "inputs": [
@@ -37,6 +37,21 @@
           "internalType": "uint256",
           "name": "_unique_in",
           "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_blood_type",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_height",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_weight",
+          "type": "uint256"
         }
       ],
       "stateMutability": "nonpayable",
@@ -64,6 +79,24 @@
         }
       ],
       "name": "addDonationToTheList",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_typeOfImmun",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_date_time_of_imun",
+          "type": "uint256"
+        }
+      ],
+      "name": "addImmunisationToTheList",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -101,12 +134,38 @@
     },
     {
       "inputs": [],
+      "name": "getBloodType",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "getDonationsList",
       "outputs": [
         {
           "internalType": "string[]",
           "name": "",
           "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getDonor",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
         }
       ],
       "stateMutability": "view",
@@ -137,6 +196,44 @@
           "internalType": "struct Patient.EmergencyPerson",
           "name": "",
           "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getHeight",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getImmunisationList",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "typeOfImmun",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "date_time_of_imun",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Patient.Immunisation[]",
+          "name": "",
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",
@@ -277,6 +374,45 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "getWeight",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_blood_type",
+          "type": "string"
+        }
+      ],
+      "name": "setBloodType",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "_donor",
+          "type": "bool"
+        }
+      ],
+      "name": "setDonor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "string",
@@ -295,6 +431,19 @@
         }
       ],
       "name": "setEmergencyPerson",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_height",
+          "type": "uint256"
+        }
+      ],
+      "name": "setHeight",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -399,6 +548,32 @@
         }
       ],
       "name": "setUniqueIdentificationNumber",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_weight",
+          "type": "uint256"
+        }
+      ],
+      "name": "setWeight",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "doctor",
+          "type": "address"
+        }
+      ],
+      "name": "throwDoctorFromTheListWithAccess",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

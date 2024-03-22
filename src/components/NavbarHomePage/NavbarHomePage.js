@@ -7,13 +7,6 @@ import femalePicture from "../../components/assets/female.png";
 import UserModal from "../UserModal/UserModal";
 
 function NavbarHomePage(props) {
-  const account = sessionStorage.getItem("patientAccount");
-  // const [data, setData] = useState(true);
-
-  // const sendData = () => {
-  //   const data = true;
-  //   sendDataToParent(data);
-  // };
 
   // Stanje koje će označiti da li je modal otvoren
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -31,7 +24,8 @@ function NavbarHomePage(props) {
     <div className="navbarHomePage">
       <img src={logo} className="logo" />
       <ul className="navbarHomePageList">
-        <li>Logged as:{props.account}</li>
+        <li>Logged as:{props.patient_account}</li>
+      
         <Link to={"/"} className="logout-button">
           <p>Logout</p>
         </Link>
@@ -47,7 +41,6 @@ function NavbarHomePage(props) {
       {modalIsOpen && (
         <UserModal
           closeModal={closeModal}
-          account={props.account}
           first_name={props.first_name}
           last_name={props.last_name}
           password={props.password}

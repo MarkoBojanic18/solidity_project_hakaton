@@ -4,12 +4,97 @@
     {
       "inputs": [
         {
+          "internalType": "string",
+          "name": "message",
+          "type": "string"
+        },
+        {
           "internalType": "address",
-          "name": "mainDoctor",
+          "name": "doctorAddress",
           "type": "address"
         }
       ],
-      "name": "addMainDoctor",
+      "name": "doctorAlreadyExists",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "message",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "patientAddress",
+          "type": "address"
+        }
+      ],
+      "name": "patientAlreadyExists",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "doctorName",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "doctorAddress",
+          "type": "address"
+        }
+      ],
+      "name": "doctorIsSuccessfullyCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "patientName",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "patientAddress",
+          "type": "address"
+        }
+      ],
+      "name": "patientIsSuccessfullyCreated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_typeOfRec",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_desc",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_docSignature",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_patient",
+          "type": "address"
+        }
+      ],
+      "name": "createMedicalRecord",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -18,7 +103,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "id",
+          "name": "patientAccount",
           "type": "address"
         },
         {
@@ -50,6 +135,21 @@
           "internalType": "uint256",
           "name": "_unique_in",
           "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_blood_type",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_height",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_weight",
+          "type": "uint256"
         }
       ],
       "name": "createPatient",
@@ -58,46 +158,24 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "message",
-          "type": "string"
-        },
-        {
-          "internalType": "address",
-          "name": "patientAddress",
-          "type": "address"
-        }
-      ],
-      "name": "patientAlreadyExists",
-      "type": "error"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "patientName",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "patientAddress",
-          "type": "address"
-        }
-      ],
-      "name": "patientIsSuccessfullyCreated",
-      "type": "event"
-    },
-    {
       "inputs": [],
       "name": "getAllPatients",
       "outputs": [
         {
           "internalType": "contract Patient[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getMedicalRecordsForPatient",
+      "outputs": [
+        {
+          "internalType": "contract MedicalRecord[]",
           "name": "",
           "type": "address[]"
         }
@@ -132,6 +210,25 @@
           "internalType": "bool",
           "name": "",
           "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "returnMedicalRecordById",
+      "outputs": [
+        {
+          "internalType": "contract MedicalRecord",
+          "name": "",
+          "type": "address"
         }
       ],
       "stateMutability": "view",

@@ -2,28 +2,40 @@
 pragma solidity ^0.8.4;
 
 import "./Patient.sol";
+import "./MedicalRecord.sol";
+import "./Doctor.sol";
 
 contract RecordFactory{
 
     error patientAlreadyExists(string message, address patientAddress);
+    error doctorAlreadyExists(string message, address doctorAddress);
 
     event patientIsSuccessfullyCreated(string patientName, address patientAddress);
+    event doctorIsSuccessfullyCreated(string doctorName, address doctorAddress);
 
-    Patient[] private patients;
+    Patient[] private patients;                 // list of patients
+    MedicalRecord[] private medicalRecords;    // list of medical records
+    uint256 private counterMedicalRecord = 1;  // id number for Mediacal Record (we need it as unique number when we create a new medical record)
+    Doctor[] private doctors;                  //list of doctors
 
-    function createPatient(address id, string memory _first_name, string memory _last_name, string memory _password, string memory _gender, uint _year_of_birth, uint _unique_in) public {
-        Patient newPatient = new Patient(id,_first_name,_last_name,_password,_gender,_year_of_birth,_unique_in);
+    // PATIENT
+
+    function createPatient(address patientAccount, string memory _first_name, string memory _last_name, string memory _password, string memory _gender, uint _year_of_birth, uint _unique_in, string memory _blood_type, uint _height, uint _weight) public {
+        Patient newPatient = new Patient(patientAccount,_first_name,_last_name,_password,_gender,_year_of_birth,_unique_in, _blood_type, _height, _weight);
 
         if(checkNewPatient(newPatient)){
-            revert patientAlreadyExists("Patient with this address has been already created!",msg.sender);
+            revert patientAlreadyExists("Patient with this address has been already created!",patientAccount);
         }
 
         patients.push(newPatient);
         
         string memory fullPatientName = string.concat(_first_name," ",_last_name);
-        emit patientIsSuccessfullyCreated(fullPatientName, msg.sender);
+        emit patientIsSuccessfullyCreated(fullPatientName, patientAccount);
     }
 
+
+//this function is only internal function which is being used by createPatient function.
+//this function loops through the list of patients and returns true or false if patient is in the list.
      function checkNewPatient(Patient newPatient)private view returns(bool){
         uint arrayLength = patients.length;
 
@@ -36,6 +48,7 @@ contract RecordFactory{
         return false;
     }
 
+//this function returns patient object if it exists in the list of patients
     function getPatientData() public view returns(Patient){
          uint arrayLength = patients.length;
 
@@ -53,7 +66,7 @@ contract RecordFactory{
         return patients;
     }
 
-
+//this function is being used only by login process of patient. It checks patient's password.
     function loginPatient(string memory pass) public view returns(bool){
          uint arrayLength = patients.length;
 
@@ -66,15 +79,122 @@ contract RecordFactory{
         return false;
     }
 
-    function addMainDoctor(address mainDoctor) public {
-         uint arrayLength = patients.length;
+    
 
-        for(uint i = 0; i < arrayLength; i++){
-            if(patients[i].getPatienceAccount() == msg.sender){
-                patients[i].setMainDoctor(mainDoctor);
-            }
-        }
+    //MEDICAL RECORD
+
+
+     function createMedicalRecord(string memory _typeOfRec, string memory _desc, address _docSignature, address _patient) public {
+        MedicalRecord newMedicalRecord = new MedicalRecord(counterMedicalRecord, _typeOfRec,_desc,_docSignature,_patient);
+        counterMedicalRecord++;
+
+        medicalRecords.push(newMedicalRecord);
     }
 
-    
+//this function returns list of all Medical Records which belong to patient who requests to get all his medical records.
+    function getMedicalRecordsForPatient() public view returns(MedicalRecord[] memory){
+        uint arrayLength = patients.length;
+        MedicalRecord[] memory patientMedicalRecords;
+        uint256 count = 0;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(medicalRecords[i].getPatient() == msg.sender){
+                patientMedicalRecords[count] = medicalRecords[i];
+                count++;
+            }
+        }
+
+
+        // Resize the array to remove any uninitialized elements
+        assembly {
+            mstore(patientMedicalRecords, count)
+        }
+
+        return patientMedicalRecords;
+    }
+
+
+//this function returns only one medical record by ID. Also this medical record should belongs to
+//a patient who triggers this function.
+    function returnMedicalRecordById(uint256 _id) public view returns (MedicalRecord){
+         uint arrayLength = medicalRecords.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(medicalRecords[i].getID() == _id){
+                if(medicalRecords[i].getPatient() != msg.sender){
+                     revert("Medical Record with required ID doesn't belong to the requestor!");
+                }
+
+                return medicalRecords[i];
+            }
+        }
+
+        revert("Medical Record with required ID doesn't exist!");
+    }
+
+
+    // function returnMedicalRecordsByDiagnosis(string memory _diagnosis) public view returns (MedicalRecord[] memory){
+    //     MedicalRecord[] memory patientMedicalRecords = getMedicalRecordsForPatient();
+    //     MedicalRecord[] memory patientMedicalRecordsByDiagnosis;
+    //     uint arrayLength = patientMedicalRecords.length;
+    //     uint256 count = 0;
+
+    //     for(uint i = 0; i < arrayLength; i++){
+    //         if(keccak256(abi.encodePacked(patientMedicalRecords[i].getTypeOfRecord())) == keccak256(abi.encodePacked(_diagnosis))){
+    //             patientMedicalRecordsByDiagnosis[count] = patientMedicalRecords[i];
+    //             count++;
+    //         }
+    //     }
+
+    //     // Resize the array to remove any uninitialized elements
+    //     assembly {
+    //         mstore(patientMedicalRecordsByDiagnosis, count)
+    //     }
+
+    //     return patientMedicalRecordsByDiagnosis;
+    // }
+
+
+
+
+    // DOCTOR
+
+
+
+    // function createNewDoctor(address _doctorAccount,string memory _first_name,string memory _last_name,string memory _role) public {
+    //     Doctor newDoctor = new Doctor(_doctorAccount,_first_name,_last_name,_role);
+
+    //     if(checkNewDoctor(newDoctor)){
+    //         revert doctorAlreadyExists("Doctor with this address has been already created!",_doctorAccount);
+    //     }
+
+    //     doctors.push(newDoctor);
+        
+    //     string memory fullDoctorName = string.concat(_first_name," ",_last_name);
+    //     emit doctorIsSuccessfullyCreated(fullDoctorName, _doctorAccount);
+    // }
+
+
+//this function is only internal function which is being used by createNewDoctor function.
+//this function loops through the list of doctors and returns true or false if doctor is in the list.
+    //  function checkNewDoctor(Doctor newDoctor)private view returns(bool){
+    //     uint arrayLength = doctors.length;
+
+    //     for(uint i = 0; i < arrayLength; i++){
+    //         if(doctors[i].getDoctorAccount() == newDoctor.getDoctorAccount()){
+    //             return true;
+    //         }
+    //     }
+
+    //     return false;
+    // }
+
+
+
+
+    // function getAllDoctors() public view returns(Doctor[] memory){
+    //     return doctors;
+    // }
+
+
 }

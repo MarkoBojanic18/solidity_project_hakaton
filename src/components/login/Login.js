@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import RecordFactoryABI from "../../contracts/RecordFactory.json";
 
 const Login = ({ onClose, account, web3, RecordFactoryAddress }) => {
+
+  sessionStorage.setItem("RecordFactoryAddress", RecordFactoryAddress);
   const [patientPassword, setClientData] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -47,11 +49,9 @@ const Login = ({ onClose, account, web3, RecordFactoryAddress }) => {
           const patient = await recordFactory.methods
             .getPatientData()
             .call({ from: account });
-
-          sessionStorage.setItem("patient", patient);
-
+            
           console.log(patient);
-
+          sessionStorage.setItem("patient_account", account);
           navigate("homePage");
         } else {
           setErrorMessage("Password is not correct!");

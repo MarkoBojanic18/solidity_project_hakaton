@@ -6,15 +6,21 @@ import Medicine from "../../components/assets/servicesIcons/medicine.png";
 import Laboratory from "../../components/assets/servicesIcons/blood-test.png";
 import Appointment from "../../components/assets/servicesIcons/appointment.png";
 import Insurance from "../../components/assets/servicesIcons/health-insurance.png";
+import RecordFactoryABI from "../../contracts/RecordFactory.json";
+import ServicePanel from "../ServicePanel/ServicePanel";
 
-function ServicesList() {
+function ServicesList(props) {
  
+
 
   return (
     <div className="services-list">
       <Service
       Icon={Diagnosis}
       Desc={"Medical Records"}
+      onclick={<ServicePanel  patient_account={props.patient_account}
+      web3={props.web3}
+      account={props.account}/>}
       ></Service>
       <Service
       Icon={Vaccine}
