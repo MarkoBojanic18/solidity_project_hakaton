@@ -1,0 +1,161 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+
+contract Patient{
+    address private id_account;
+    string private first_name;
+    string private last_name;
+    string private password;
+    string private gender;
+    uint private year_of_birth;
+    uint private unique_in;
+    address private mainDoctor;
+    address[] private doctors_with_access;
+    EmergencyPerson private emergencyPerson;
+    Insurance[] private insurances;
+    bool private donor;
+    string[] private donations;
+    
+    struct EmergencyPerson{
+        string first_name;
+        string last_name;
+        string contact;
+    }
+
+    struct Insurance{
+         string typeOfInsurance;  //naziv osiguranja
+        string insuranceCoverage; // pokrivenost osiguranja
+        bool insuranceIsPaid; // da li je placeno osiguranje
+    } 
+
+    constructor (address id, string memory _first_name, string memory _last_name, string memory _password, string memory _gender, uint _year_of_birth, uint _unique_in){
+        id_account = id;
+        first_name = _first_name;
+        last_name = _last_name;
+        password = _password;
+        gender = _gender;
+        year_of_birth = _year_of_birth;
+        unique_in = _unique_in;
+    }
+
+    function getPatienceAccount() public view returns(address){
+        return id_account;
+    }
+
+    function setPatienceAccount(address id) public {
+        id_account = id;
+    }
+
+    function getPatienceFirstName() public view returns(string memory){
+        return first_name;
+    }
+
+    function setPatienceFirstName(string memory fn) public {
+        first_name = fn;
+    }
+
+    function getPatienceLastName() public view returns(string memory){ 
+        return last_name;
+    }
+
+    function setPatienceLastName(string memory ln) public {
+        last_name = ln;
+    }
+
+    function getPatiencePassword() public view returns(string memory){ 
+        return password;
+    }
+
+    function setPatiencePassword(string memory pass) public {
+        password = pass;
+    }
+
+    function getPatienceGender() public view returns(string memory){ 
+        return gender;
+    }
+
+    function setPatienceGender(string memory gend) public {
+        gender = gend;
+    }
+
+    function getPatienceYearOfBirth() public view returns(uint){ 
+        return year_of_birth;
+    }
+
+    function setPatienceYearOfBirth(uint year) public {
+        year_of_birth = year;
+    }
+
+    function getUniqueIdentificationNumber() public view returns(uint){ 
+        return unique_in;
+    }
+
+    function setUniqueIdentificationNumber(uint uin) public {
+        unique_in = uin;
+    }
+
+     function getMainDoctor() public view returns(address){ 
+        return mainDoctor;
+    }
+
+    function setMainDoctor(address mainDoc) public {
+        mainDoctor = mainDoc;
+    }
+
+     function getAllDoctorsWithAccess() public view returns(address[] memory){ 
+        return doctors_with_access;
+    }
+
+    function doesDoctorWithAccessExistInTheList(address doctor) private view returns(bool){
+         uint arrayLength = doctors_with_access.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(doctors_with_access[i] == doctor){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function addDoctorWithAccess(address doctor) public {
+       if(!doesDoctorWithAccessExistInTheList(doctor)){
+        doctors_with_access.push(doctor);
+       }
+    }
+
+    function getEmergencyPerson() public view returns (EmergencyPerson memory) {
+        return emergencyPerson;
+    }
+
+     function setEmergencyPerson(
+        string memory _firstName,
+        string memory _lastName,
+        string memory _contact
+    ) public {
+        emergencyPerson = EmergencyPerson(_firstName, _lastName, _contact);
+    }
+
+
+    function addInsuranceToTheList(string memory _typeOfInsurance, string memory _insuranceCoverage) public  {
+            Insurance memory insurance = Insurance(_typeOfInsurance,_insuranceCoverage,false);
+            insurances.push(insurance);
+        }
+
+    function getInsurancesList() public view returns(Insurance[] memory){
+            return insurances;
+    }
+
+    function addDonationToTheList(string memory organ) public  {
+            donations.push(organ);
+        }
+
+    function getDonationsList() public view returns(string[] memory){
+            return donations;
+    }
+    
+
+    
+
+
+}

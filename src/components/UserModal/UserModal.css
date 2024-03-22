@@ -1,0 +1,129 @@
+.user-modal-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 103vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.user-modal-overlay {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: rgba(0,0,0,0.4);
+}
+.user-modal {
+    width: 400px;
+    height: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #222;
+    padding:80px 20px 20px 30px;
+    box-shadow: 0px 0px 30px 10px #2c9caf;
+    border-radius: 10px;
+}
+.user-modal .close{
+    margin-left: -4px;
+}
+.user-modal input {
+    border-bottom: 1px solid #2c9caf;
+    
+}
+.user-informations {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.single-info {
+    text-transform: uppercase;
+    display: flex;
+    align-items: flex-end;
+    
+    gap: 4px;
+    font-size: 12px;
+}
+.info-desc {
+    color: #2c9caf;
+    font-weight: 600;
+}
+.info-value {
+    color: #fff;
+}
+.inputbox {
+    margin-top: 4px;
+    position: relative;
+    width: 100px;
+  }
+  
+  .inputbox input {
+    position: relative;
+    width: 100%;
+    padding: 16px 8px 8px;
+    background: transparent;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    color: #23242a;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+    z-index: 10;
+  }
+  
+  .inputbox span {
+    position: absolute;
+    left: 0;
+    padding: 12px 6px 6px;
+    font-size: 12px;
+    color: #8f8f8f;
+    letter-spacing: 00.05em;
+    transition: 0.5s;
+    pointer-events: none;
+  }
+  
+  .inputbox input:valid ~span,
+  .inputbox input:focus ~span {
+    color: #2c9caf;
+    transform: translateX(-8px) translateY(-16px);
+    font-size: 0,5em;
+  }
+  
+  .inputbox i {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #2c9caf;
+    border-radius: 4px;
+    transition: 0.5s;
+    pointer-events: none;
+    z-index: 9;
+  }
+  
+  .inputbox input:valid ~i,
+  .inputbox input:focus ~i {
+    height: 24px;
+  }
+  .update-btn {
+    width: 80px;
+    border-radius: 8px;
+    padding: 4px 2px;
+    background-color: transparent;
+    border: 1px solid #2c9caf;
+    color: #fff;
+    transition: all 300ms;
+  }
+  .update-btn:hover {
+    color: #222;
+    background-color: #2c9caf;
+    cursor: pointer;
+  }
+  .update-height-frm {
+    display: flex;
+    align-items: flex-end;
+    margin-top: -20px;
+    gap: 10px;
+  }

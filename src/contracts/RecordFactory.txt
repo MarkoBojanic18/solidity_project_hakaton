@@ -1,0 +1,80 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+
+import "./Patient.sol";
+
+contract RecordFactory{
+
+    error patientAlreadyExists(string message, address patientAddress);
+
+    event patientIsSuccessfullyCreated(string patientName, address patientAddress);
+
+    Patient[] private patients;
+
+    function createPatient(address id, string memory _first_name, string memory _last_name, string memory _password, string memory _gender, uint _year_of_birth, uint _unique_in) public {
+        Patient newPatient = new Patient(id,_first_name,_last_name,_password,_gender,_year_of_birth,_unique_in);
+
+        if(checkNewPatient(newPatient)){
+            revert patientAlreadyExists("Patient with this address has been already created!",msg.sender);
+        }
+
+        patients.push(newPatient);
+        
+        string memory fullPatientName = string.concat(_first_name," ",_last_name);
+        emit patientIsSuccessfullyCreated(fullPatientName, msg.sender);
+    }
+
+     function checkNewPatient(Patient newPatient)private view returns(bool){
+        uint arrayLength = patients.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(patients[i].getPatienceAccount() == newPatient.getPatienceAccount()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function getPatientData() public view returns(Patient){
+         uint arrayLength = patients.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(patients[i].getPatienceAccount() == msg.sender){
+                return patients[i];
+            }
+        }
+
+        revert("Patient doesn't exist");
+    }
+
+
+    function getAllPatients() public view returns(Patient[] memory){
+        return patients;
+    }
+
+
+    function loginPatient(string memory pass) public view returns(bool){
+         uint arrayLength = patients.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(patients[i].getPatienceAccount() == msg.sender && keccak256(abi.encodePacked(patients[i].getPatiencePassword())) == keccak256(abi.encodePacked(pass)) ){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function addMainDoctor(address mainDoctor) public {
+         uint arrayLength = patients.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(patients[i].getPatienceAccount() == msg.sender){
+                patients[i].setMainDoctor(mainDoctor);
+            }
+        }
+    }
+
+    
+}

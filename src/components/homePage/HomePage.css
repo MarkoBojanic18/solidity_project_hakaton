@@ -1,0 +1,22 @@
+.header {
+  width: 100%;
+  background-color: blue;
+  color: #fff;
+  padding: 1%;
+}
+
+/* a {
+  text-decoration: none !important;
+  color: white !important;
+  padding: 2px;
+} */
+.services-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 20px 10px 20px;
+  /* padding-top: 30px; */
+}
+.home-page {
+  position: relative;
+}

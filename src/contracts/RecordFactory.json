@@ -1,0 +1,141 @@
+{
+  "contractName": "RecordFactory",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "mainDoctor",
+          "type": "address"
+        }
+      ],
+      "name": "addMainDoctor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "id",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_first_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_last_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_password",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_gender",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_year_of_birth",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_unique_in",
+          "type": "uint256"
+        }
+      ],
+      "name": "createPatient",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "message",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "patientAddress",
+          "type": "address"
+        }
+      ],
+      "name": "patientAlreadyExists",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "patientName",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "patientAddress",
+          "type": "address"
+        }
+      ],
+      "name": "patientIsSuccessfullyCreated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "getAllPatients",
+      "outputs": [
+        {
+          "internalType": "contract Patient[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getPatientData",
+      "outputs": [
+        {
+          "internalType": "contract Patient",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "pass",
+          "type": "string"
+        }
+      ],
+      "name": "loginPatient",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}
