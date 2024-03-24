@@ -2,14 +2,10 @@
 pragma solidity ^0.8.4;
 
 import "./Patient.sol";
-import "./Doctor.sol";
 
 contract RecordFactory{
 
     Patient[] private patients;                 // list of patients
- 
-
-    Doctor[] private doctors;                  //list of doctors
 
     // PATIENT
 
@@ -83,6 +79,17 @@ contract RecordFactory{
 
     }
 
+    function addNewImmunisationToPatientList(string memory _typeOfImmun, address _patient) public {
+         uint arrayLength = patients.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(patients[i].getPatienceAccount() == _patient){
+               patients[i].addImmunisationToTheList(_typeOfImmun);
+            }
+        }
+
+    }
+
 
     function addNewDonationToPatientList(string memory _organ) public {
          uint arrayLength = patients.length;
@@ -96,39 +103,62 @@ contract RecordFactory{
     }
 
 
+    //Medical Record
+
+    function createMedicalRecord(string memory _typeOfRec, string memory _desc, address _docSignature, address _patient, string memory _recipe) public {
+        uint arrayLength = patients.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(patients[i].getPatienceAccount() == _patient){
+                patients[i].addMecialRecordForPatient(_typeOfRec, _desc, _docSignature,_recipe,_patient, address(0));
+            }
+        }
+    }
+
+    function changeMedicalRecordForPatient(uint256 _idn, address _doctorWhoCanSeeRecipe) public {
+        uint arrayLength = patients.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(patients[i].getPatienceAccount() == msg.sender){
+                patients[i].changeMedicalRecord(_idn,_doctorWhoCanSeeRecipe);
+            }
+        }
+    }
+
+
     // DOCTOR
 
 
 
-    function createNewDoctor(address _doctorAccount,string memory _first_name,string memory _last_name,string memory _role) public {
-        Doctor newDoctor = new Doctor(_doctorAccount,_first_name,_last_name,_role);
+    // function createNewDoctor(address _doctorAccount,string memory _first_name,string memory _last_name,string memory _role) public {
+    //     Doctor newDoctor = new Doctor(_doctorAccount,_first_name,_last_name,_role);
 
-        if(!checkNewDoctor(newDoctor)){
-             doctors.push(newDoctor);
-        }
-    }
-
-
-//this function is only internal function which is being used by createNewDoctor function.
-//this function loops through the list of doctors and returns true or false if doctor is in the list.
-     function checkNewDoctor(Doctor newDoctor)private view returns(bool){
-        uint arrayLength = doctors.length;
-
-        for(uint i = 0; i < arrayLength; i++){
-            if(doctors[i].getDoctorAccount() == newDoctor.getDoctorAccount()){
-                return true;
-            }
-        }
-
-        return false;
-    }
+    //     if(!checkNewDoctor(newDoctor)){
+    //          doctors.push(newDoctor);
+    //     }
+    // }
 
 
+// //this function is only internal function which is being used by createNewDoctor function.
+// //this function loops through the list of doctors and returns true or false if doctor is in the list.
+//      function checkNewDoctor(Doctor newDoctor)private view returns(bool){
+//         uint arrayLength = doctors.length;
+
+//         for(uint i = 0; i < arrayLength; i++){
+//             if(doctors[i].getDoctorAccount() == newDoctor.getDoctorAccount()){
+//                 return true;
+//             }
+//         }
+
+//         return false;
+//     }
 
 
-    function getAllDoctors() public view returns(Doctor[] memory){
-        return doctors;
-    }
+
+
+//     function getAllDoctors() public view returns(Doctor[] memory){
+//         return doctors;
+//     }
 
 
 

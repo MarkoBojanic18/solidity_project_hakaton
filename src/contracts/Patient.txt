@@ -19,11 +19,24 @@ contract Patient{
     Immunisation[] private immunisations;        //list of immunisations which patient got
     bool private donor;                         //if patient is donor {true, false}
     string[] private donations;               // list of organs which patient will donate
+    MedicalRecord[] private medicalRecords;            //list of insurances which patinet takes
+    uint256 counterMedicalRecord = 0;                
     
     struct EmergencyPerson{
         string first_name;  // first name of emergency person
         string last_name;   // last name of emergency person
         string contact;    // phone number of emergency person
+    }
+
+    struct MedicalRecord{
+    uint256  id; // unique identification number of medical record
+    string  typeOfRecord; //da li je operacija, alergija, hronicna bolest, povreda
+    string  description; //doktorova zapazanja
+    address  doctorSignature; //adresa doktora koji je napravio record
+    uint256  date_time_of_record; //datum kada je napravljen record
+    string  recipe; // recept
+    address  patient; // address of patiente
+    address doctorWhoCanSeeRecipe; //person in pharmacy who can see patiente's recipe
     }
 
     struct Insurance{
@@ -34,7 +47,7 @@ contract Patient{
 
     struct Immunisation{
         string typeOfImmun;     //type/name of immunisation which patient got
-        string date_time_of_imun;  //date and time when patient got immunisation
+        uint256 date_time_of_imun;  //date and time when patient got immunisation
     }
 
     constructor (address id, string memory _first_name, string memory _last_name, string memory _password, string memory _gender, string memory _year_of_birth, string memory _unique_in, string memory _blood_type, string memory _height, string memory _weight){
@@ -223,7 +236,8 @@ function getBloodType() public view returns(string memory){
 
 
 
-    function addImmunisationToTheList(string memory _typeOfImmun, string memory _date_time_of_imun) public  {
+    function addImmunisationToTheList(string memory _typeOfImmun) public  {
+        uint256 _date_time_of_imun = block.timestamp;
             Immunisation memory immunisation = Immunisation(_typeOfImmun,_date_time_of_imun);
             immunisations.push(immunisation);
     }
@@ -231,5 +245,50 @@ function getBloodType() public view returns(string memory){
     function getImmunisationList() public view returns(Immunisation[] memory){
             return immunisations;
     }
-   
+
+    function getAllMedicalRecords() public view returns(MedicalRecord[] memory){
+        return medicalRecords;
+    }
+
+    function addMecialRecordForPatient(string memory _typeOfRecord, string memory _description, address  _doctorSignature, string memory _recipe, address _patient, address _doctorWhoCanSeeRecipe ) public {
+        counterMedicalRecord++;
+        uint256 _date_time_of_record = block.timestamp;
+        MedicalRecord memory medicalRecord = MedicalRecord(counterMedicalRecord, _typeOfRecord, _description, _doctorSignature, _date_time_of_record, _recipe,  _patient, _doctorWhoCanSeeRecipe);
+        medicalRecords.push(medicalRecord);
+    }
+
+    function changeMedicalRecord(uint256 _id, address _doctorWhoCanSeeRecipe) public{
+        uint256 arrayLength = medicalRecords.length;
+
+        for (uint256 i = 0; i < arrayLength; i++) {
+        if (medicalRecords[i].id == _id) {
+            medicalRecords[i].doctorWhoCanSeeRecipe = _doctorWhoCanSeeRecipe;
+        }
+    }
+    }
+
+    function getMedicalRecordByDaignose(string memory _diagnose) public view returns(MedicalRecord[] memory){
+       uint256 arrayLength = medicalRecords.length;
+    MedicalRecord[] memory diagnoseMedicalRecord = new MedicalRecord[](arrayLength);
+    uint256 count = 0;
+
+    for (uint256 i = 0; i < arrayLength; i++) {
+        if (keccak256(bytes(medicalRecords[i].typeOfRecord)) == keccak256(bytes(_diagnose))) {
+            // If the category matches, add the expense to the result array
+            diagnoseMedicalRecord[count] = medicalRecords[i];
+            count++;
+        }
+    }
+
+     // Resize the array to remove any uninitialized elements
+    assembly {
+        mstore(diagnoseMedicalRecord, count)
+    }
+
+    return diagnoseMedicalRecord;
+    }
+
+    
+
+
 }
