@@ -6,7 +6,17 @@ import manPicture from "../../components/assets/man.png";
 import femalePicture from "../../components/assets/female.png";
 import UserModal from "../UserModal/UserModal";
 
-function NavbarHomePage(props) {
+function NavbarHomePage({patient_account,
+  first_name,
+  last_name,
+  password,
+  gender,
+  year_of_birth,
+  unique_in,
+  bloodType,
+  height,
+  weight,
+  donor}) {
 
   // Stanje koje će označiti da li je modal otvoren
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -24,14 +34,14 @@ function NavbarHomePage(props) {
     <div className="navbarHomePage">
       <img src={logo} className="logo" />
       <ul className="navbarHomePageList">
-        <li>Logged as:{props.patient_account}</li>
+        <li>Logged as:{patient_account}</li>
       
         <Link to={"/"} className="logout-button">
           <p>Logout</p>
         </Link>
         <img
           className="avatar"
-          src={props.gender === "male" ? manPicture : femalePicture}
+          src={gender === "male" ? manPicture : femalePicture}
           alt=""
           onClick={openModal}
         />
@@ -41,12 +51,16 @@ function NavbarHomePage(props) {
       {modalIsOpen && (
         <UserModal
           closeModal={closeModal}
-          first_name={props.first_name}
-          last_name={props.last_name}
-          password={props.password}
-          gender={props.gender}
-          year_of_birth={props.year_of_birth}
-          unique_in={props.unique_in}
+          first_name={first_name}
+          last_name={last_name}
+          password={password}
+          gender={gender}
+          year_of_birth={year_of_birth}
+          unique_in={unique_in}
+          bloodType={bloodType}
+          height={height}
+          weight={weight}
+          donor={donor}
         />
       )}
     </div>

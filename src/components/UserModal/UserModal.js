@@ -3,7 +3,6 @@ import "./UserModal.css";
 
 
 function UserModal(props) {
-
     const [isOpen, setIsOpen] = useState(true);
 
     const onClose = () => {
@@ -40,11 +39,11 @@ function UserModal(props) {
         </div>
         <div className="single-info">
         <span className="info-desc">Blood type:</span>
-        <span className="info-value">A+</span>
+        <span className="info-value">{props.bloodType}</span>
         </div>
         <div className="single-info">
         <span className="info-desc">Height:</span>
-        <span className="info-value">185cm</span>
+        <span className="info-value">{props.height}</span>
         </div>
         <form className="update-height-frm">
         <div className="inputbox">
@@ -58,7 +57,7 @@ function UserModal(props) {
 
         <div className="single-info">
         <span className="info-desc">Weight:</span>
-        <span className="info-value">90kg</span>
+        <span className="info-value">{props.weight}</span>
         </div>
 
         <form className="update-height-frm">
@@ -72,7 +71,7 @@ function UserModal(props) {
         
         <div className="single-info">
         <span className="info-desc">Organ donator:</span>
-        <span className="info-value">Yes</span>
+        <span className="info-value">{props.donor}</span>
         </div>
 
     </div>

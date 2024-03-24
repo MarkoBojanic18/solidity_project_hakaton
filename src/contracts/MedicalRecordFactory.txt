@@ -1,0 +1,149 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+
+
+import "./MedicalRecord.sol";
+
+
+contract MedicalRecordFactory{
+
+       MedicalRecord[] private medicalRecords;    // list of medical records
+           uint256 private counterMedicalRecord = 1;  // id number for Mediacal Record (we need it as unique number when we create a new medical record)
+
+       
+    //MEDICAL RECORD
+
+
+     function createMedicalRecord(string memory _typeOfRec, string memory _desc, address _docSignature, address _patient, string memory _date_time_of_record, string memory _recipe) public {
+        MedicalRecord newMedicalRecord = new MedicalRecord(counterMedicalRecord, _typeOfRec,_desc,_docSignature,_patient,_date_time_of_record,_recipe);
+        counterMedicalRecord++;
+
+        medicalRecords.push(newMedicalRecord);
+    }
+
+//this function returns list of all Medical Records which belong to patient who requests to get all his medical records.
+    function getMedicalRecordsForPatient() public view returns(MedicalRecord[] memory){
+        uint arrayLength = medicalRecords.length;
+        MedicalRecord[] memory patientMedicalRecords = new MedicalRecord[](arrayLength);
+        uint256 count = 0;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(medicalRecords[i].getPatient() == msg.sender){
+                patientMedicalRecords[count] = medicalRecords[i];
+                count++;
+            }
+        }
+
+
+        // Resize the array to remove any uninitialized elements
+        assembly {
+            mstore(patientMedicalRecords, count)
+        }
+
+        return patientMedicalRecords;
+    }
+
+
+//this function returns only one medical record by ID. Also this medical record should belongs to
+//a patient who triggers this function.
+    function returnMedicalRecordById(uint256 _id) public view returns (MedicalRecord){
+         uint arrayLength = medicalRecords.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(medicalRecords[i].getID() == _id){
+                if(medicalRecords[i].getPatient() != msg.sender){
+                    return MedicalRecord(address(0));
+                }
+
+                return medicalRecords[i];
+            }
+        }
+
+        return MedicalRecord(address(0));
+    }
+
+
+    function returnMedicalRecordsByDiagnosis(string memory _diagnosis) public view returns (MedicalRecord[] memory){
+        MedicalRecord[] memory patientMedicalRecords = getMedicalRecordsForPatient();
+        uint arrayLength = patientMedicalRecords.length;
+        MedicalRecord[] memory patientMedicalRecordsByDiagnosis = new MedicalRecord[](arrayLength);
+        uint256 count = 0;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(keccak256(abi.encodePacked(patientMedicalRecords[i].getTypeOfRecord())) == keccak256(abi.encodePacked(_diagnosis))){
+                patientMedicalRecordsByDiagnosis[count] = patientMedicalRecords[i];
+                count++;
+            }
+        }
+
+        // Resize the array to remove any uninitialized elements
+        assembly {
+            mstore(patientMedicalRecordsByDiagnosis, count)
+        }
+
+        return patientMedicalRecordsByDiagnosis;
+    }
+
+    function returnMedicalRecordsByDate(string memory _date_time_of_record) public view returns (MedicalRecord[] memory){
+        MedicalRecord[] memory patientMedicalRecords = getMedicalRecordsForPatient();
+        uint arrayLength = patientMedicalRecords.length;
+        MedicalRecord[] memory patientMedicalRecordsByDiagnosis = new MedicalRecord[](arrayLength);
+        uint256 count = 0;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(keccak256(abi.encodePacked(patientMedicalRecords[i].getDateTimeOfRecord())) == keccak256(abi.encodePacked(_date_time_of_record))){
+                patientMedicalRecordsByDiagnosis[count] = patientMedicalRecords[i];
+                count++;
+            }
+        }
+
+        // Resize the array to remove any uninitialized elements
+        assembly {
+            mstore(patientMedicalRecordsByDiagnosis, count)
+        }
+
+        return patientMedicalRecordsByDiagnosis;
+    }
+
+
+    function returnAllRecipesOfPatient() public view returns (string[] memory){
+        uint arrayLength = medicalRecords.length;
+        string[] memory listOfReceipes = new string[](arrayLength);
+        uint256 count = 0;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(medicalRecords[i].getPatient() == msg.sender){
+                listOfReceipes[count] = medicalRecords[i].getRecipe();
+                count++;
+            }
+        }
+
+        // Resize the array to remove any uninitialized elements
+        assembly {
+            mstore(listOfReceipes, count)
+        }
+
+        return listOfReceipes;
+    }
+
+
+    function setDoctorWhoCanSeeReceipe(string memory _recipe,address _doctorWhoCanSeeReceipe) public {
+        uint arrayLength = medicalRecords.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(keccak256(abi.encodePacked(medicalRecords[i].getRecipe())) == keccak256(abi.encodePacked(_recipe)) && medicalRecords[i].getPatient() == msg.sender){
+                medicalRecords[i].setDoctorWhoCanSeeRecipe(_doctorWhoCanSeeReceipe);
+            }
+        }
+    }
+
+
+    
+
+
+
+
+    
+
+
+}

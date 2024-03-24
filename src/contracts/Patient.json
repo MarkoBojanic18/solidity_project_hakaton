@@ -29,14 +29,14 @@
           "type": "string"
         },
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "_year_of_birth",
-          "type": "uint256"
+          "type": "string"
         },
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "_unique_in",
-          "type": "uint256"
+          "type": "string"
         },
         {
           "internalType": "string",
@@ -44,14 +44,14 @@
           "type": "string"
         },
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "_height",
-          "type": "uint256"
+          "type": "string"
         },
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "_weight",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "stateMutability": "nonpayable",
@@ -91,9 +91,9 @@
           "type": "string"
         },
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "_date_time_of_imun",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "addImmunisationToTheList",
@@ -206,9 +206,9 @@
       "name": "getHeight",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "stateMutability": "view",
@@ -226,9 +226,9 @@
               "type": "string"
             },
             {
-              "internalType": "uint256",
+              "internalType": "string",
               "name": "date_time_of_imun",
-              "type": "uint256"
+              "type": "string"
             }
           ],
           "internalType": "struct Patient.Immunisation[]",
@@ -352,9 +352,9 @@
       "name": "getPatienceYearOfBirth",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "stateMutability": "view",
@@ -365,9 +365,9 @@
       "name": "getUniqueIdentificationNumber",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "stateMutability": "view",
@@ -378,9 +378,9 @@
       "name": "getWeight",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "stateMutability": "view",
@@ -438,9 +438,9 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "_height",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "setHeight",
@@ -529,9 +529,9 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "year",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "setPatienceYearOfBirth",
@@ -542,9 +542,9 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "uin",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "setUniqueIdentificationNumber",
@@ -555,9 +555,9 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string",
           "name": "_weight",
-          "type": "uint256"
+          "type": "string"
         }
       ],
       "name": "setWeight",

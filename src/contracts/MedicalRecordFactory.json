@@ -1,0 +1,144 @@
+{
+    "contractName": "MedicalRecordFactory.json",
+    "abi": [
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_typeOfRec",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_desc",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_docSignature",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_patient",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_date_time_of_record",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_recipe",
+				"type": "string"
+			}
+		],
+		"name": "createMedicalRecord",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMedicalRecordsForPatient",
+		"outputs": [
+			{
+				"internalType": "contract MedicalRecord[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "returnAllRecipesOfPatient",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "returnMedicalRecordById",
+		"outputs": [
+			{
+				"internalType": "contract MedicalRecord",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_date_time_of_record",
+				"type": "string"
+			}
+		],
+		"name": "returnMedicalRecordsByDate",
+		"outputs": [
+			{
+				"internalType": "contract MedicalRecord[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_diagnosis",
+				"type": "string"
+			}
+		],
+		"name": "returnMedicalRecordsByDiagnosis",
+		"outputs": [
+			{
+				"internalType": "contract MedicalRecord[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_recipe",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_doctorWhoCanSeeReceipe",
+				"type": "address"
+			}
+		],
+		"name": "setDoctorWhoCanSeeReceipe",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
+}

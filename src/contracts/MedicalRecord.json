@@ -27,42 +27,29 @@
 				"internalType": "address",
 				"name": "_patient",
 				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_date_time_of_record",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_recipe",
+				"type": "string"
 			}
 		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "med",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "weig",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "desc",
-				"type": "string"
-			}
-		],
-		"name": "addRecipeToTheList",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "getDateTimeOfRecord",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -84,6 +71,19 @@
 	{
 		"inputs": [],
 		"name": "getDoctorSignature",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getDoctorWhoCanSeeRecipe",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -122,29 +122,12 @@
 	},
 	{
 		"inputs": [],
-		"name": "getRecipeList",
+		"name": "getRecipe",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "medicine",
-						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "weight",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "description_for_usage",
-						"type": "string"
-					}
-				],
-				"internalType": "struct MedicalRecord.Recipe[]",
+				"internalType": "string",
 				"name": "",
-				"type": "tuple[]"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -193,11 +176,37 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "_doctorWhoCanSeeRecipe",
+				"type": "address"
+			}
+		],
+		"name": "setDoctorWhoCanSeeRecipe",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "addressPatient",
 				"type": "address"
 			}
 		],
 		"name": "setPatient",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_recipe",
+				"type": "string"
+			}
+		],
+		"name": "setReceipe",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"

@@ -7,18 +7,26 @@ import "./HomePage.css";
 import UserModal from "../UserModal/UserModal";
 import Web3 from "web3";
 import PatientABI from "../../contracts/Patient.json";
+import BlankPanel from  "../BalnkPanel/BlankPanel.js";
 
 function HomePage() {
   const patient = sessionStorage.getItem("patient");
   const RecordFactoryAddress = sessionStorage.getItem("RecordFactoryAddress");
+  const MedicalRecordFactoryAddress = sessionStorage.getItem("MedicalRecordFactoryAddress");
 
   const [patient_account, setPatientAccount] = useState("");
   const [first_name, setPatientFirstName] = useState("");
   const [last_name, setPatientLastName] = useState("");
   const [password, setPatientPassword] = useState("");
   const [gender, setPatientGender] = useState("");
-  const [year_of_birth, setPatientYearOfBirth] = useState(0);
-  const [unique_in, setPatientUniqueIN] = useState(0);
+  const [height, setPatientHeight] = useState("");
+  const [weight, setPatientWeight] = useState("");
+  const [bloodType, setPatientBloodType] = useState("");
+  const [year_of_birth, setPatientYearOfBirth] = useState("");
+  const [unique_in, setPatientUniqueIN] = useState("");
+  const [donor, setDonor] = useState(false);
+
+
 
   const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
@@ -80,17 +88,38 @@ function HomePage() {
         const year_of_birth1 = await patientContract.methods
           .getPatienceYearOfBirth()
           .call();
-        const unique_in1 = await patientContract.methods
+        const bloodType1 = await patientContract.methods
+          .getBloodType()
+          .call();
+          const height1 = await patientContract.methods
+          .getHeight()
+          .call();
+          const weight1= await patientContract.methods
+          .getWeight()
+          .call();
+          const unique_in1 = await patientContract.methods
           .getUniqueIdentificationNumber()
           .call();
+          const donor1 = await patientContract.methods
+          .getDonor()
+          .call();
 
+          console.log(donor1);
+      
+          
+    
         setPatientAccount(patient_account1);
         setPatientFirstName(first_name1);
         setPatientLastName(last_name1);
         setPatientPassword(password1);
         setPatientGender(gender1);
         setPatientYearOfBirth(year_of_birth1);
+        setPatientHeight(height1);
+        setPatientWeight(weight1);
+        setPatientBloodType(bloodType1);
+        setDonor(donor1+"");
         setPatientUniqueIN(unique_in1);
+        
       }
     } catch (error) {
       console.error("Error during loading pacient data:", error);
@@ -121,18 +150,22 @@ function HomePage() {
         gender={gender}
         year_of_birth={year_of_birth}
         unique_in={unique_in}
+        bloodType={bloodType}
+        height={height}
+        weight={weight}
+        donor={donor}
       />
-        <li>RODJENJE:{year_of_birth}</li>
-        <li>POL:{gender}</li>
-      <button onClick={laodPatientData}>Click</button>
-      <div className="services-container">
+        <button onClick={laodPatientData}>Click</button>
+        <div className="services-container">
         <ServicesList
         RecordFactoryAddress={RecordFactoryAddress}
+        MedicalRecordFactoryAddress={MedicalRecordFactoryAddress}
         patient_account={patient_account}
         web3={web3}
         ></ServicesList>
-        <ServicePanel></ServicePanel>
+          <BlankPanel></BlankPanel>
       </div>
+     
     </div>
   );
 }

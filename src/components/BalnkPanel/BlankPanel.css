@@ -1,0 +1,8 @@
+.panel {
+    width: 70vw;
+    height: 80vh;
+    background-color: whitesmoke;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 8px;
+}

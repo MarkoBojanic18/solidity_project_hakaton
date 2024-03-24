@@ -6,24 +6,20 @@ contract MedicalRecord{
     string private typeOfRecord; //da li je operacija, alergija, hronicna bolest, povreda
     string private description; //doktorova zapazanja
     address private doctorSignature; //adresa doktora koji je napravio record
-    uint private date_time_of_record; //datum kada je napravljen record
-    Recipe[] private recipes; // lista recepata
+    string private date_time_of_record; //datum kada je napravljen record
+    string private recipe; // recept
     address private patient; // address of patiente
-
-    struct Recipe {
-        string medicine; //lek
-        uint weight; //gramaza leka
-        string description_for_usage; //uputstvo za koriscenje leka
-    }
+    address private doctorWhoCanSeeRecipe; //person in pharmacy who can see patiente's recipe
     
 
-    constructor(uint _id, string memory typeOfRec, string memory desc, address docSignature, address _patient){
+    constructor(uint _id, string memory typeOfRec, string memory desc, address docSignature, address _patient,string memory _date_time_of_record,string memory _recipe){
         id = _id;
         typeOfRecord = typeOfRec;
         description = desc;
         doctorSignature = docSignature;
-        date_time_of_record = block.timestamp;
+        date_time_of_record = _date_time_of_record;
         patient = _patient;
+        recipe = _recipe;
     }
 
         function getID() public view returns(uint256){
@@ -54,18 +50,19 @@ contract MedicalRecord{
             doctorSignature = docSig;
         }
 
-        function getDateTimeOfRecord() public view returns(uint){
+        function getDateTimeOfRecord() public view returns(string memory){
             return date_time_of_record;
         }
 
-        function addRecipeToTheList(string memory med, uint weig, string memory desc) public  {
-            Recipe memory recipe = Recipe(med,weig,desc);
-            recipes.push(recipe);
+        function setReceipe(string memory _recipe) public {
+            recipe = _recipe;
         }
 
-        function getRecipeList() public view returns(Recipe[] memory){
-            return recipes;
+        function getRecipe() public view returns(string memory){
+            return recipe;
         }
+
+        
 
          function getPatient() public view returns(address){
             return patient;
@@ -75,6 +72,14 @@ contract MedicalRecord{
             patient = addressPatient;
         }
 
-        
 
+        function getDoctorWhoCanSeeRecipe() public view returns(address){
+            return doctorWhoCanSeeRecipe;
+        }
+
+        function setDoctorWhoCanSeeRecipe(address _doctorWhoCanSeeRecipe) public {
+            doctorWhoCanSeeRecipe = _doctorWhoCanSeeRecipe;
+        }
+
+       
 }

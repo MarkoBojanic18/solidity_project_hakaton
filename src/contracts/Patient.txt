@@ -7,11 +7,11 @@ contract Patient{
     string private last_name;    //last name of patinet
     string private password;     //password
     string private gender;         //gender {male,female}
-    uint private year_of_birth;    // in format {1999}
-    uint private unique_in;         //JMBG
+    string private year_of_birth;    // in format {1999}
+    string private unique_in;         //JMBG
     string private blood_type;       // {A+, A-, B+, B-, AB+, AB-, O+, O-}
-    uint private height;             // in format 185 (measure will be cm}
-    uint private weight;               // in fromat 80 (measur will be kg}
+    string private height;             // in format 185 (measure will be cm}
+    string private weight;               // in fromat 80 (measur will be kg}
     address private mainDoctor;         // address of the patient's main doctor
     address[] private doctors_with_access;   // list of the doctors which can see patient's medical records
     EmergencyPerson private emergencyPerson;   //a person who will be contacted if it is neccessary to make a decision instead of patient
@@ -34,10 +34,10 @@ contract Patient{
 
     struct Immunisation{
         string typeOfImmun;     //type/name of immunisation which patient got
-        uint date_time_of_imun;  //date and time when patient got immunisation
+        string date_time_of_imun;  //date and time when patient got immunisation
     }
 
-    constructor (address id, string memory _first_name, string memory _last_name, string memory _password, string memory _gender, uint _year_of_birth, uint _unique_in, string memory _blood_type, uint _height, uint _weight){
+    constructor (address id, string memory _first_name, string memory _last_name, string memory _password, string memory _gender, string memory _year_of_birth, string memory _unique_in, string memory _blood_type, string memory _height, string memory _weight){
         id_account = id;
         first_name = _first_name;
         last_name = _last_name;
@@ -91,19 +91,19 @@ contract Patient{
         gender = gend;
     }
 
-    function getPatienceYearOfBirth() public view returns(uint){ 
+    function getPatienceYearOfBirth() public view returns(string memory){ 
         return year_of_birth;
     }
 
-    function setPatienceYearOfBirth(uint year) public {
+    function setPatienceYearOfBirth(string memory year) public {
         year_of_birth = year;
     }
 
-    function getUniqueIdentificationNumber() public view returns(uint){ 
+    function getUniqueIdentificationNumber() public view returns(string memory){ 
         return unique_in;
     }
 
-    function setUniqueIdentificationNumber(uint uin) public {
+    function setUniqueIdentificationNumber(string memory uin) public {
         unique_in = uin;
     }
 
@@ -115,19 +115,19 @@ function getBloodType() public view returns(string memory){
         blood_type = _blood_type;
     }
 
-    function getHeight() public view returns(uint){ 
+    function getHeight() public view returns(string memory){ 
         return height;
     }
 
-    function setHeight(uint _height) public {
+    function setHeight(string memory _height) public {
         height = _height;
     }
 
-    function getWeight() public view returns(uint){ 
+    function getWeight() public view returns(string memory){ 
         return weight;
     }
 
-    function setWeight(uint _weight) public {
+    function setWeight(string memory _weight) public {
         weight = _weight;
     }
 
@@ -223,7 +223,7 @@ function getBloodType() public view returns(string memory){
 
 
 
-    function addImmunisationToTheList(string memory _typeOfImmun, uint _date_time_of_imun) public  {
+    function addImmunisationToTheList(string memory _typeOfImmun, string memory _date_time_of_imun) public  {
             Immunisation memory immunisation = Immunisation(_typeOfImmun,_date_time_of_imun);
             immunisations.push(immunisation);
     }
@@ -231,6 +231,5 @@ function getBloodType() public view returns(string memory){
     function getImmunisationList() public view returns(Immunisation[] memory){
             return immunisations;
     }
-    
-
+   
 }
