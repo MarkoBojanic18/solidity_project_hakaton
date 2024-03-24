@@ -6,7 +6,8 @@ import manPicture from "../../components/assets/man.png";
 import femalePicture from "../../components/assets/female.png";
 import UserModal from "../UserModal/UserModal";
 
-function NavbarHomePage({patient_account,
+function NavbarHomePage({
+  patient_account,
   first_name,
   last_name,
   password,
@@ -16,8 +17,9 @@ function NavbarHomePage({patient_account,
   bloodType,
   height,
   weight,
-  donor}) {
-
+  donor,
+  loadPatientData,
+}) {
   // Stanje koje će označiti da li je modal otvoren
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -32,10 +34,10 @@ function NavbarHomePage({patient_account,
 
   return (
     <div className="navbarHomePage">
-      <img src={logo} className="logo" />
+      <img src={logo} className="logo" onClick={loadPatientData} />
       <ul className="navbarHomePageList">
         <li>Logged as:{patient_account}</li>
-      
+
         <Link to={"/"} className="logout-button">
           <p>Logout</p>
         </Link>

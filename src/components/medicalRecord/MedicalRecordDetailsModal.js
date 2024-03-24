@@ -1,107 +1,139 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import RecordFactoryABI from "../../contracts/RecordFactory.json";
 import "./MedicalRecordDetailsModal.css";
-import MedicalRecordABI from "../../contracts/MedicalRecord.json";
 
+const MedicalRecordDetailsModal = ({
+  onClose,
+  web3,
+  patient_account,
+  medicalRecord,
+  recordFactoryAddress,
+}) => {
+  const [medicalReordData, setMedicalRecordData] = useState({
+    id: Number(medicalRecord.id),
+    doctorWhoCanSeeRecipe: medicalRecord.doctorWhoCanSeeRecipe,
+  });
 
-const MedicalRecordDetailsModal = ({ patient_account,web3,selectedMedicalRecord, RecordFactoryAddress, MedicalRecordFactoryAddress, onClose }) => {
+  function formatDate(_date) {
+    // Convert Unix timestamp to milliseconds
+    const milliseconds = _date * 1000;
 
-    const [id, setId] = useState("");
-    const [typeOfRecord, setTypeOfRecord] = useState("");
-    const [date_time_of_record, setDate_time_of_record] = useState("");
-    const [description, setDescription] = useState("");
-    const [doctorSignature, setDoctorSignature] = useState("");
-    const [recipe, setRecipe] = useState("");
-    const [doctorWhoCanSeeRecipe, setDoctorWhoCanSeeRecipe] = useState("");
-    const [patient, setpatient] = useState("");
+    // Create a new Date object with the converted milliseconds
+    const dateObject = new Date(milliseconds);
 
-   
+    // Extract individual date and time components
+    const date = dateObject.toLocaleDateString();
+    const time = dateObject.toLocaleTimeString();
 
-    const loadRecordDetails = async () => {
-        const medicalRecordContract = new web3.eth.Contract(
-            MedicalRecordABI.abi,
-            selectedMedicalRecord
-        );
+    const date_time = date + " " + time;
 
+    return date_time;
+  }
 
-        const id1 = await medicalRecordContract.methods.getID().call();
-        const typeOfRecord1 = await medicalRecordContract.methods.getTypeOfRecord().call();
-        const description1 = await medicalRecordContract.methods.getDescription().call();
-        const doctorSignature1 = await medicalRecordContract.methods.getDoctorSignature().call();
-        const date_time_of_record1 = await medicalRecordContract.methods.getDateTimeOfRecord().call();
-        const recipe1 = await medicalRecordContract.methods.getRecipe().call();
-        const patient1 = await medicalRecordContract.methods.getPatient().call();
-        const doctorWhoCanSeeRecipe1 = await medicalRecordContract.methods.getDoctorWhoCanSeeRecipe().call();
+  const handleChange = (e) => {
+    setMedicalRecordData({
+      ...medicalReordData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-        setId(id1+"");
-      
-        setTypeOfRecord(typeOfRecord1);
-        setDoctorSignature(doctorSignature1);
-        setDate_time_of_record(date_time_of_record1+"");
-        setDescription(description1);
-        setRecipe(recipe1);
-        setpatient(patient1);
-        setDoctorWhoCanSeeRecipe(doctorWhoCanSeeRecipe1);
+  const handleSubmit = async () => {
+    if (typeof window.ethereum === "undefined" || !window.ethereum.isMetaMask) {
+      console.log("MetaMask is not installed or not connected!");
+      return;
+    }
+    if (!web3 || !patient_account) {
+      alert("Web3 instance or account is not available.");
+      return;
+    }
+    try {
+      const recordFactory = new web3.eth.Contract(
+        RecordFactoryABI.abi,
+        recordFactoryAddress
+      );
 
-    };
+      const transactionParameters = {
+        to: recordFactoryAddress,
+        from: patient_account, // must match user's active address
+        data: recordFactory.methods
+          .changeMedicalRecordForPatient(
+            medicalReordData.id,
+            medicalReordData.doctorWhoCanSeeRecipe
+          )
+          .encodeABI({ from: patient_account }),
+      }; // call to contract method
 
-    useEffect(() => {
-        loadRecordDetails();
-    }, []);
+      // txHash is a hex string
+      const txHash = await window.ethereum.request({
+        method: "eth_sendTransaction",
+        params: [transactionParameters],
+      });
 
+      console.log("Transaction Hash:", txHash);
 
+      console.log(expenseData);
 
-    return (
-        <div>
+      onClose();
+    } catch (error) {
+      console.error("Error during changing medical record", error);
+    }
+  };
 
-            <div className="client-details-modal">
-                <h2 className="modal-title">Medical Record Details</h2>
+  return (
+    <div>
+      <div className="client-details-modal">
+        <h2 className="modal-title">Medical Record Details</h2>
 
-                <p className="client-info">Patient address: {patient_account}</p>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Record id:</td>
-                            <td>{id}</td>
-                        </tr>
-                        <tr>
-                            <td>Patient:</td>
-                            <td>{patient}</td>
-                        </tr>
-                        <tr>
-                            <td>Type of record:</td>
-                            <td>{typeOfRecord}</td>
-                        </tr>
-                        <tr>
-                            <td>Description:</td>
-                            <td>{description}</td>
-                        </tr>
-                        <tr>
-                            <td>Recipe:</td>
-                            <td>{recipe}</td>
-                        </tr>
-                        <tr>
-                            <td>Date of record:</td>
-                            <td>{date_time_of_record}</td>
-                        </tr>
-                        <tr>
-                            <td>Doctor writing this report</td>
-                            <td>{doctorSignature}</td>
-                        </tr>
+        <p className="client-info">Patient address: {patient_account}</p>
+        <table>
+          <tbody>
+            <tr>
+              <td>Record id:</td>
+              <td>{Number(medicalRecord.id)}</td>
+            </tr>
+            <tr>
+              <td>Patient:</td>
+              <td>{medicalRecord.patient}</td>
+            </tr>
+            <tr>
+              <td>Type of record:</td>
+              <td>{medicalRecord.typeOfRecord}</td>
+            </tr>
+            <tr>
+              <td>Description:</td>
+              <td>{medicalRecord.description}</td>
+            </tr>
+            <tr>
+              <td>Recipe:</td>
+              <td>{medicalRecord.recipe}</td>
+            </tr>
+            <tr>
+              <td>Date of record:</td>
+              <td>{formatDate(Number(medicalRecord.date_time_of_record))}</td>
+            </tr>
+            <tr>
+              <td>Doctor writing this report</td>
+              <td>{medicalRecord.doctorSignature}</td>
+            </tr>
 
-                    </tbody>
-                </table>
-                <button className="close-button" onClick={onClose}>
-                    Close
-                </button>
+            <input
+              className="modal-input"
+              name="doctorWhoCanSeeRecipe"
+              placeholder="Enter a doctor who can access receipe"
+              onChange={handleChange}
+            />
+          </tbody>
+        </table>
 
-            </div>
-        </div>
-
-
-    );
+        <button className="close-button" onClick={handleSubmit}>
+          Save
+        </button>
+        <button className="close-button" onClick={onClose}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
 };
 
-
-
-export default MedicalRecordDetailsModal
-
+export default MedicalRecordDetailsModal;

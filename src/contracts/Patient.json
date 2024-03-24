@@ -89,11 +89,6 @@
           "internalType": "string",
           "name": "_typeOfImmun",
           "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_date_time_of_imun",
-          "type": "string"
         }
       ],
       "name": "addImmunisationToTheList",
@@ -120,6 +115,62 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_typeOfRecord",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_doctorSignature",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_recipe",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_patient",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_doctorWhoCanSeeRecipe",
+          "type": "address"
+        }
+      ],
+      "name": "addMecialRecordForPatient",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_doctorWhoCanSeeRecipe",
+          "type": "address"
+        }
+      ],
+      "name": "changeMedicalRecord",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "getAllDoctorsWithAccess",
       "outputs": [
@@ -127,6 +178,61 @@
           "internalType": "address[]",
           "name": "",
           "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllMedicalRecords",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "typeOfRecord",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "doctorSignature",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "date_time_of_record",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "recipe",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "patient",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "doctorWhoCanSeeRecipe",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct Patient.MedicalRecord[]",
+          "name": "",
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",
@@ -226,9 +332,9 @@
               "type": "string"
             },
             {
-              "internalType": "string",
+              "internalType": "uint256",
               "name": "date_time_of_imun",
-              "type": "string"
+              "type": "uint256"
             }
           ],
           "internalType": "struct Patient.Immunisation[]",
@@ -277,6 +383,67 @@
           "internalType": "address",
           "name": "",
           "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_diagnose",
+          "type": "string"
+        }
+      ],
+      "name": "getMedicalRecordByDaignose",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "typeOfRecord",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "doctorSignature",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "date_time_of_record",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "recipe",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "patient",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "doctorWhoCanSeeRecipe",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct Patient.MedicalRecord[]",
+          "name": "",
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",

@@ -9,8 +9,8 @@ const Main = () => {
   const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
 
-  const RecordFactoryAddress = "0xf0dF10a9c4fAe594F1C74a394b175787f0B11F5A";
-  const MedicalRecordFactoryAddress = "0x249dF3b2aC915E2Ab6159aCaa0DbE484dD12259E";
+  const RecordFactoryAddress = "0xFb206505918385b8a4150492B10f7e28c90D856D";
+  const DoctorFactoryAddress = "0x48d0d60AA3B2A77C16f190a8D491f55bdC856f90";
   const sepoliaRPCUrl =
     "https://sepolia.infura.io/v3/67bc1009f5a547cc978659e13579ddf0";
 
@@ -56,17 +56,13 @@ const Main = () => {
               Connect with metamask
             </button>
             <h1>PERSONAL HEALTHCARE RECORD</h1>
-            <p>
-              Keep track of your health with privacy
-            </p>
+            <p>Keep track of your health with privacy</p>
           </div>
         ) : (
           <div className="login-wrapper">
             <div>
-            <h1>WELCOME TO YOUR PHR </h1>
-            <p>
-              Log in to continue...
-            </p>
+              <h1>WELCOME TO YOUR PHR </h1>
+              <p>Log in to continue...</p>
             </div>
             <div className="arrow">
               <span></span>
@@ -87,7 +83,7 @@ const Main = () => {
                 account={account}
                 onClose={() => setShowCreateModal(false)}
                 RecordFactoryAddress={RecordFactoryAddress}
-                MedicalRecordFactoryAddress={MedicalRecordFactoryAddress}
+                DoctorFactoryAddress={DoctorFactoryAddress}
               />
             )}
           </div>

@@ -18,6 +18,24 @@
       "inputs": [
         {
           "internalType": "string",
+          "name": "_typeOfImmun",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_patient",
+          "type": "address"
+        }
+      ],
+      "name": "addNewImmunisationToPatientList",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
           "name": "_typeOfInsurance",
           "type": "string"
         },
@@ -35,27 +53,50 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "_idn",
+          "type": "uint256"
+        },
+        {
           "internalType": "address",
-          "name": "_doctorAccount",
+          "name": "_doctorWhoCanSeeRecipe",
+          "type": "address"
+        }
+      ],
+      "name": "changeMedicalRecordForPatient",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_typeOfRec",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_desc",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_docSignature",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_patient",
           "type": "address"
         },
         {
           "internalType": "string",
-          "name": "_first_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_last_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_role",
+          "name": "_recipe",
           "type": "string"
         }
       ],
-      "name": "createNewDoctor",
+      "name": "createMedicalRecord",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -116,19 +157,6 @@
       "name": "createPatient",
       "outputs": [],
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getAllDoctors",
-      "outputs": [
-        {
-          "internalType": "contract Doctor[]",
-          "name": "",
-          "type": "address[]"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     },
     {

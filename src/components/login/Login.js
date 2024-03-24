@@ -4,10 +4,15 @@ import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
 import RecordFactoryABI from "../../contracts/RecordFactory.json";
 
-const Login = ({ onClose, account, web3, RecordFactoryAddress, MedicalRecordFactoryAddress }) => {
-
+const Login = ({
+  onClose,
+  account,
+  web3,
+  RecordFactoryAddress,
+  DoctorFactoryAddress,
+}) => {
   sessionStorage.setItem("RecordFactoryAddress", RecordFactoryAddress);
-  sessionStorage.setItem("MedicalRecordFactoryAddress", MedicalRecordFactoryAddress);
+  sessionStorage.setItem("DoctorFactoryAddress", DoctorFactoryAddress);
   const [patientPassword, setClientData] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -31,18 +36,17 @@ const Login = ({ onClose, account, web3, RecordFactoryAddress, MedicalRecordFact
     if (patientPassword == "") {
       setErrorMessage("Field password can't be empty!");
     } else {
-      try { 
+      try {
         const recordFactory = new web3.eth.Contract(
           RecordFactoryABI.abi,
           RecordFactoryAddress
-        );      
+        );
         const loginStatus = await recordFactory.methods
           .loginPatient(patientPassword)
           .call({ from: account });
 
         console.log("Korisnik je logovan: ", loginStatus);
         console.log(web3);
-
 
         if (loginStatus) {
           onClose();
@@ -55,7 +59,7 @@ const Login = ({ onClose, account, web3, RecordFactoryAddress, MedicalRecordFact
 
           console.log(patient);
 
-          navigate("homePage")
+          navigate("homePage");
         } else {
           setErrorMessage("Password is not correct!");
         }

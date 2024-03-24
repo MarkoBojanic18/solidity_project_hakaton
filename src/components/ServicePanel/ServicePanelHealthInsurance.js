@@ -1,111 +1,116 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import PatientABI from "../../contracts/Patient.json";
 import "./ServicePanel.css";
-import HealthInsuranceDetailsModal from  "../healthInsurance/HealthInsuranceDetailsModal.js";
 
+const ServicePanelHealthInsurance = ({ web3 }) => {
+  const [healthInsurances, setHealthInsurances] = useState([]);
+  const [sortCriteria, setSortCriteria] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
+  const patient = sessionStorage.getItem("patient");
 
-function ServicePanelHealthInsurance({RecordFactoryAddress,MedicalRecordFactoryAddress,patient_account,web3,onClose}) {
+  const loadHealthInsurances = async () => {
+    try {
+      const patientFactory = new web3.eth.Contract(PatientABI.abi, patient);
 
-    const [healthInsurances, setHealthInsurances] = useState([]);
-    const [SelectedHealthInsurance, setSelectedHealthInsurance] = useState(null);
-    
-  
-    useEffect(() => {
-         loadPatientHealthInsurance();
-  
-    }, []);
-  
- 
-  
-  
-    const  loadPatientHealthInsurance = async () => {
-      if (typeof window.ethereum === "undefined" || !window.ethereum.isMetaMask) {
-        console.log("MetaMask is not installed or not connected!");
-        return;
-      }
-      if (!web3 || !patient_account) {
-        alert("Web3 instance or account is not available.");
-        return;
-      }
-  
-      try {
-        if (web3 && patient_account) {
-        
+      const healthInsurancesFromContract = await patientFactory.methods
+        .getInsurancesList()
+        .call();
+      console.log(healthInsurancesFromContract);
+      setHealthInsurances(healthInsurancesFromContract);
+    } catch (error) {
+      console.error(
+        "Error while loading health insurances for patient:",
+        error
+      );
+    }
+  };
 
-            const patient1= sessionStorage.getItem("patient");
-            //mi pozivamo kontrakt pomocu objekta patient
-            const patientContract = new web3.eth.Contract(PatientABI.abi, patient1);
-            console.log("Izadje iz patient contract")
-  
-            const ListOfhealthInsurances = await patientContract.methods
-              .getInsurancesList() 
-              .call();
-              console.log("Greska")
-            setHealthInsurances(ListOfhealthInsurances);
-            console.log(healthInsurances);
-          }
-  
-   
-      } catch (error) {
-          console.error("Error during loading medical records:", error);
-        }
-      };
-  
-      const openDetailsModal = (healthInsurance) => {
-        setSelectedHealthInsurance(healthInsurance);
-      };
-  
+  const sortBy = (key) => {
+    if (sortCriteria === key) {
+      // If already sorting by the same criteria, reverse direction
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      // If sorting by a new criteria, set the criteria and direction
+      setSortCriteria(key);
+      setSortDirection("asc");
+    }
+  };
 
+  const sortedHealthInsurances = [...healthInsurances].sort((a, b) => {
+    if (sortCriteria === "typeOfInsurance") {
+      return sortDirection === "asc"
+        ? a.typeOfInsurance.localeCompare(b.typeOfInsurance)
+        : b.typeOfInsurance.localeCompare(a.typeOfInsurance);
+    } else if (sortCriteria === "insuranceCoverage") {
+      return sortDirection === "asc"
+        ? a.insuranceCoverage.localeCompare(b.insuranceCoverage)
+        : b.insuranceCoverage.localeCompare(a.insuranceCoverage);
+    } else if (sortCriteria === "insuranceIsPaid") {
+      return sortDirection === "asc"
+        ? a.insuranceIsPaid.localeCompare(b.insuranceIsPaid)
+        : b.insuranceIsPaid.localeCompare(a.insuranceIsPaid);
+    }
+    // If no sorting criteria is selected, return original order
+    return 0;
+  });
 
-      /*
-      {healthInsurances.
-            map((healthInsurance, index) => (
-              <tr key={index}>
-                className="client-item"
-                onClick={() => openDetailsModal(healthInsurance)}
-                <td>{healthInsurance.typeOfInsurance}</td>
-                <td>{formatDate(Number(expense.date))}</td>
-              </tr>
-             {index + 1}
-        </div>
-      ))}
-      */
+  useEffect(() => {
+    if (web3) {
+      loadHealthInsurances();
+    }
+  }, [web3]);
+
   return (
-      <div className="panel">
-
-       <table>
-        <tbody>
+    <div className="client-list">
+      <h1 className="client-list-title">ALL Health Insurances of Patient</h1>
+      <table>
+        <thead>
           <tr>
-            <td>TypeOfInsurance</td>
-            <td>Insurance coverage:</td>
-            <td>Insurance paid?:</td>
+            <th onClick={() => sortBy("typeOfInsurance")}>
+              Type of health insurance{" "}
+              {sortCriteria === "typeOfInsurance" &&
+                sortDirection === "asc" &&
+                "↑"}
+              {sortCriteria === "typeOfInsurance" &&
+                sortDirection === "desc" &&
+                "↓"}
+            </th>
+            <th onClick={() => sortBy("insuranceCoverage")}>
+              Type of health insurance{" "}
+              {sortCriteria === "insuranceCoverage" &&
+                sortDirection === "asc" &&
+                "↑"}
+              {sortCriteria === "insuranceCoverage" &&
+                sortDirection === "desc" &&
+                "↓"}
+            </th>
+            <th onClick={() => sortBy("insuranceIsPaid")}>
+              Insurance is paid{" "}
+              {sortCriteria === "insuranceIsPaid" &&
+                sortDirection === "asc" &&
+                "↑"}
+              {sortCriteria === "insuranceIsPaid" &&
+                sortDirection === "desc" &&
+                "↓"}
+            </th>
           </tr>
-          {healthInsurances.
-            map((healthInsurance, index) => (
-              <tr key={index}>
-                <td>{healthInsurance.typeOfInsurance}</td>
-                <td>{healthInsurance.insuranceCoverage}</td>
-                <td>{Number(healthInsurance.insuranceIsPaid)==0 ? "insurance is not paid":
-                "insurance is paid"}</td>
-              </tr>
-            ))}
+        </thead>
+        <tbody>
+          {sortedHealthInsurances.map((healthInsur, index) => (
+            <tr key={index}>
+              <td>{healthInsur.typeOfInsurance}</td>
+              <td>{healthInsur.insuranceCoverage}</td>
+              <td>
+                {Number(healthInsur.insuranceIsPaid) === 0
+                  ? "Not paid"
+                  : "Paid"}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-
     </div>
-  )
-}
+  );
+};
 
-export default ServicePanelHealthInsurance
-
-
-/*{SelectedHealthInsurance && (
-  < HealthInsuranceDetailsModal
-  selectedHealthInsurance={SelectedHealthInsurance}
-  web3={web3}
-  patient_account={patient_account}
-  RecordFactoryAddress={RecordFactoryAddress}
-  MedicalRecordFactoryAddress={MedicalRecordFactoryAddress}
-  onClose={() => setHealthInsurances(null)}
-/>
-)}*/
+export default ServicePanelHealthInsurance;

@@ -7,12 +7,14 @@ import "./HomePage.css";
 import UserModal from "../UserModal/UserModal";
 import Web3 from "web3";
 import PatientABI from "../../contracts/Patient.json";
-import BlankPanel from  "../BalnkPanel/BlankPanel.js";
+import BlankPanel from "../BalnkPanel/BlankPanel.js";
 
 function HomePage() {
   const patient = sessionStorage.getItem("patient");
   const RecordFactoryAddress = sessionStorage.getItem("RecordFactoryAddress");
-  const MedicalRecordFactoryAddress = sessionStorage.getItem("MedicalRecordFactoryAddress");
+  const MedicalRecordFactoryAddress = sessionStorage.getItem(
+    "MedicalRecordFactoryAddress"
+  );
 
   const [patient_account, setPatientAccount] = useState("");
   const [first_name, setPatientFirstName] = useState("");
@@ -25,8 +27,6 @@ function HomePage() {
   const [year_of_birth, setPatientYearOfBirth] = useState("");
   const [unique_in, setPatientUniqueIN] = useState("");
   const [donor, setDonor] = useState(false);
-
-
 
   const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
@@ -56,7 +56,7 @@ function HomePage() {
     }
   };
 
-  const laodPatientData = async () => {
+  const loadPatientData = async () => {
     if (typeof window.ethereum === "undefined" || !window.ethereum.isMetaMask) {
       console.log("MetaMask is not installed or not connected!");
       return;
@@ -88,26 +88,16 @@ function HomePage() {
         const year_of_birth1 = await patientContract.methods
           .getPatienceYearOfBirth()
           .call();
-        const bloodType1 = await patientContract.methods
-          .getBloodType()
-          .call();
-          const height1 = await patientContract.methods
-          .getHeight()
-          .call();
-          const weight1= await patientContract.methods
-          .getWeight()
-          .call();
-          const unique_in1 = await patientContract.methods
+        const bloodType1 = await patientContract.methods.getBloodType().call();
+        const height1 = await patientContract.methods.getHeight().call();
+        const weight1 = await patientContract.methods.getWeight().call();
+        const unique_in1 = await patientContract.methods
           .getUniqueIdentificationNumber()
           .call();
-          const donor1 = await patientContract.methods
-          .getDonor()
-          .call();
+        const donor1 = await patientContract.methods.getDonor().call();
 
-          console.log(donor1);
-      
-          
-    
+        console.log(donor1);
+
         setPatientAccount(patient_account1);
         setPatientFirstName(first_name1);
         setPatientLastName(last_name1);
@@ -117,9 +107,8 @@ function HomePage() {
         setPatientHeight(height1);
         setPatientWeight(weight1);
         setPatientBloodType(bloodType1);
-        setDonor(donor1+"");
+        setDonor(donor1 + "");
         setPatientUniqueIN(unique_in1);
-        
       }
     } catch (error) {
       console.error("Error during loading pacient data:", error);
@@ -154,18 +143,17 @@ function HomePage() {
         height={height}
         weight={weight}
         donor={donor}
+        loadPatientData={loadPatientData}
       />
-        <button onClick={laodPatientData}>Click</button>
-        <div className="services-container">
+      <div className="services-container">
         <ServicesList
-        RecordFactoryAddress={RecordFactoryAddress}
-        MedicalRecordFactoryAddress={MedicalRecordFactoryAddress}
-        patient_account={patient_account}
-        web3={web3}
+          RecordFactoryAddress={RecordFactoryAddress}
+          MedicalRecordFactoryAddress={MedicalRecordFactoryAddress}
+          patient_account={patient_account}
+          web3={web3}
         ></ServicesList>
-          <BlankPanel></BlankPanel>
+        <BlankPanel></BlankPanel>
       </div>
-     
     </div>
   );
 }

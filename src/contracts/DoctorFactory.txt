@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+
+import "./Doctor.sol";
+
+contract DoctorFactory{
+
+    Doctor[] private doctors;                 // list of doctors
+
+    function createNewDoctor(address _doctorAccount,string memory _first_name,string memory _last_name,string memory _role) public {
+        Doctor newDoctor = new Doctor(_doctorAccount,_first_name,_last_name,_role);
+
+        if(!checkNewDoctor(newDoctor)){
+             doctors.push(newDoctor);
+        }
+    }
+
+
+//this function is only internal function which is being used by createNewDoctor function.
+//this function loops through the list of doctors and returns true or false if doctor is in the list.
+     function checkNewDoctor(Doctor newDoctor)private view returns(bool){
+        uint arrayLength = doctors.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(doctors[i].getDoctorAccount() == newDoctor.getDoctorAccount()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function returnSpecificDoctor(address _doctorAddress) public view returns(Doctor){
+        uint arrayLength = doctors.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(doctors[i].getDoctorAccount() == _doctorAddress){
+                return doctors[i];
+            }
+        }
+
+        return Doctor(address(0));
+    }
+
+    function returnDoctorsByRole(string memory _role) public view returns(Doctor[] memory){
+    uint256 arrayLength = doctors.length;
+    Doctor[] memory doctorsByRole = new Doctor[](arrayLength);
+    uint256 count = 0;
+
+    for (uint256 i = 0; i < arrayLength; i++) {
+        if (keccak256(bytes(doctors[i].getDoctorRole())) == keccak256(bytes(_role))) {
+            // If the category matches, add the expense to the result array
+            doctorsByRole[count] = doctors[i];
+            count++;
+        }
+    }
+
+     // Resize the array to remove any uninitialized elements
+    assembly {
+        mstore(doctorsByRole, count)
+    }
+
+    return doctorsByRole;
+    }
+    
+
+
+
+
+    function getAllDoctors() public view returns(Doctor[] memory){
+        return doctors;
+    }
+
+
+}
