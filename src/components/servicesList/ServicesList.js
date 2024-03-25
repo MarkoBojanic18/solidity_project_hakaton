@@ -27,22 +27,22 @@ function ServicesList(props) {
   const handleServiceClick = (id) => {
     if (id == 1) {
       setshowPanelMedicalRecord(true);
-    }
+    } else setshowPanelMedicalRecord(false);
     if (id == 2) {
       setshowPanelImunnisation(true);
-    }
+    } else setshowPanelImunnisation(false);
     if (id == 3) {
       setshowPanelMedicine(true);
-    }
+    } else setshowPanelMedicine(false);
     if (id == 4) {
       setshowPanelLaboratory(true);
-    }
+    } else setshowPanelLaboratory(false);
     if (id == 5) {
       setshowPanelAppointments(true);
-    }
+    } else setshowPanelAppointments(false);
     if (id == 6) {
       setshowPanelHealthInsurance(true);
-    }
+    } else setshowPanelHealthInsurance(false);
   };
 
   return (

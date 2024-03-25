@@ -62,7 +62,7 @@ const ServicePanelHealthInsurance = ({ web3 }) => {
 
   return (
     <div className="client-list">
-      <h1 className="client-list-title">ALL Health Insurances of Patient</h1>
+      <h1 className="client-list-title">All Health Insurances of Patient</h1>
       <table>
         <thead>
           <tr>

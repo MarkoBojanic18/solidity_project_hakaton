@@ -4,13 +4,13 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 500px;
-  margin: 20px auto;
+  min-width: 600px;
+  margin-top: 10px;
   text-align: center;
 }
 
 table {
-  font-family: arial, sans-serif;
+  font-family: monospace;
   border-collapse: collapse;
   width: 100%;
 }
@@ -22,13 +22,13 @@ th {
   padding: 8px;
 }
 
-img {
+/* img {
   height: 100px;
   width: 100px;
-}
+} */
 
 .modal-title {
-  font-size: 1.5rem;
+  font-size: 16px;
   color: #333;
   margin-bottom: 20px;
 }
@@ -38,7 +38,7 @@ img {
   margin: 10px 0;
 }
 
-.close-button {
+.cancel-button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -48,11 +48,60 @@ img {
   transition: background-color 0.3s ease;
 }
 
-.close-button {
+.cancel-button {
   background-color: #dc3545;
   color: white;
 }
 
-.close-button:hover {
+.cancel-button:hover {
   background-color: #c82333;
 }
+.form {
+  margin-top: 10px;
+  --width-of-input: 200px;
+  --border-height: 1px;
+  --border-before-color: rgba(0, 0, 0, 0.39);
+  --border-after-color: #0f4b59;
+  --input-hovered-color: #2b8a841f;
+  position: relative;
+  width: var(--width-of-input);
+ }
+ /* styling of Input */
+ .input {
+  color: black;
+  font-size: 0.9rem;
+  background-color: transparent;
+  width: 100%;
+  box-sizing: border-box;
+  padding-inline: 0.5em;
+  padding-block: 0.7em;
+  border: none;
+  border-bottom: var(--border-height) solid var(--border-before-color);
+ }
+ /* styling of animated border */
+ .input-border {
+  position: absolute;
+  background: var(--border-after-color);
+  width: 0%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  transition: 0.3s;
+ }
+ /* Hover on Input */
+ input:hover {
+  background: var(--input-hovered-color);
+ }
+ 
+ input:focus {
+  outline: none;
+ }
+ /* here is code of animated border */
+ input:focus ~ .input-border {
+  width: 100%;
+ }
+ /* === if you want to do animated border on typing === */
+ /* remove input:focus code and uncomment below code */
+ /* input:valid ~ .input-border{
+   width: 100%;
+ } */

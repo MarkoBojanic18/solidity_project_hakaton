@@ -71,7 +71,7 @@ const MedicalRecordDetailsModal = ({
 
       console.log("Transaction Hash:", txHash);
 
-      console.log(expenseData);
+      // console.log(expenseData);
 
       onClose();
     } catch (error) {
@@ -116,19 +116,27 @@ const MedicalRecordDetailsModal = ({
               <td>{medicalRecord.doctorSignature}</td>
             </tr>
 
-            <input
-              className="modal-input"
+            <div className="form">
+              <input className="input"
               name="doctorWhoCanSeeRecipe"
-              placeholder="Enter a doctor who can access receipe"
-              onChange={handleChange}
-            />
+               placeholder="Enter a doctor with access" 
+               required="" 
+               type="text"
+               onChange={handleChange}/>
+              <span className="input-border"></span>
+            </div>
+            {/* <input
+              className="modal-input"
+              
+              placeholder="Enter a doctor with access"
+              
+            /> */}
           </tbody>
         </table>
-
-        <button className="close-button" onClick={handleSubmit}>
+        <button className="cancel-button" onClick={handleSubmit}>
           Save
         </button>
-        <button className="close-button" onClick={onClose}>
+        <button className="cancel-button" onClick={onClose}>
           Cancel
         </button>
       </div>

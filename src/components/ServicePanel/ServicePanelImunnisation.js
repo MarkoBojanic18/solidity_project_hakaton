@@ -73,7 +73,7 @@ const ServicePanelImunnisation = ({ web3 }) => {
 
   return (
     <div className="client-list">
-      <h1 className="client-list-title">ALL Immunisations of Patient</h1>
+      <h1 className="client-list-title">Immunisations of Patient</h1>
       <table>
         <thead>
           <tr>

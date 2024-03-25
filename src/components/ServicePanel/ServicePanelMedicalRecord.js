@@ -83,7 +83,7 @@ const ServicePanelMedicalRecord = ({
 
   return (
     <div className="client-list">
-      <h1 className="client-list-title">ALL Medical Records of Patient</h1>
+      <h1 className="client-list-title">Medical Records</h1>
       <table>
         <thead>
           <tr>
@@ -107,11 +107,9 @@ const ServicePanelMedicalRecord = ({
             <tr key={index}>
               <td>{medicalRecord.typeOfRecord}</td>
               <td>{formatDate(Number(medicalRecord.date_time_of_record))}</td>
-              <td>
-                <button onClick={() => openDetailsModal(medicalRecord)}>
+                <button className="change-button button2" onClick={() => openDetailsModal(medicalRecord)}>
                   change
                 </button>
-              </td>
             </tr>
           ))}
         </tbody>
