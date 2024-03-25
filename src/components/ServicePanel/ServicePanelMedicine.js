@@ -8,11 +8,18 @@ import NavbarHomePage from "../NavbarHomePage/NavbarHomePage";
 
 import "./ServicePanel.css";
 
-function ServicePanelMedicine({RecordFactoryAddress,MedicalRecordFactoryAddress,patient_account,web3,onClose}) {
+function ServicePanelMedicine({ web3,
+  patient_account,
+  RecordFactoryAddress,}) {
 
-    const [medicines, setMedicines] = useState([]);
-    
-  
+
+
+  const [sortCriteria, setSortCriteria] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
+  const patient = sessionStorage.getItem("patient");
+  const [medicines, setMedicines] = useState([]);
+
+
     useEffect(() => {
          loadPatientRecepies();
   
@@ -22,59 +29,54 @@ function ServicePanelMedicine({RecordFactoryAddress,MedicalRecordFactoryAddress,
   
   
     const loadPatientRecepies = async () => {
-      if (typeof window.ethereum === "undefined" || !window.ethereum.isMetaMask) {
-        console.log("MetaMask is not installed or not connected!");
-        return;
-      }
-      if (!web3 || !patient_account) {
-        alert("Web3 instance or account is not available.");
-        return;
-      }
-  
       try {
-        if (web3 && patient_account) {
-        
-          const medicalRecordsFactorycontract = new web3.eth.Contract(
-            medicalRecordsFactoryABI .abi,
-            MedicalRecordFactoryAddress
-          );
-          console.log("Ovde ok");  
+        const patientFactory = new web3.eth.Contract(PatientABI.abi, patient);
   
-   ///prikaz svih recepata kao stringova
-          console.log(patient_account);  
-  
-         
-            const listOfRecepiesForPateint = await medicalRecordsFactorycontract.methods
-              .returnAllRecipesOfPatient() 
-              .call({ from: patient_account });
-  
-            setMedicines(listOfRecepiesForPateint);
-            console.log(listOfRecepiesForPateint)
-  
-          }
-  
-   
-      } catch (error) {
-          console.error("Error during loading medical records:", error);
-        }
-      };
-  
-  
-  
+      const medicalRecordsFromContract = await patientFactory.methods
+        .getAllMedicalRecords()
+        .call();
 
-  return (
-      <div className="panel">
-     {medicines.map((medicine, index) => (
-        <div
-          key={index}
-          className="client-item"
-        >
-          {index + 1}
-        </div>
-      ))}
 
+      const recordsWithRecipes = medicalRecordsFromContract.filter(record => record.recipe !== "");
+
+      const recipesAndDates = recordsWithRecipes.map(record => {
+        const date = new Date(Number(record.date_time_of_record) * 1000);
+        return {
+          recipe: record.recipe,
+          date: date // F.toLocaleDateString() 
+        };
+      });
+      setMedicines(recipesAndDates);
+  
+      console.log("Recipes and Dates:", recipesAndDates);
+    } catch (error) {
+      console.error("Error while loading medical records for patient:", error);
+    }
+  };
+
+
+
+  return  (
+    <div className="client-list">
+      <h1 className="client-list-title">Medical Records</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Medicines</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {medicines.map((medicine, index) => (
+            <tr key={index}>
+              <td>{medicine.recipe}</td>
+              <td>{medicine.date.toLocaleDateString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  )
-}
+  );
+};
 
 export default ServicePanelMedicine
