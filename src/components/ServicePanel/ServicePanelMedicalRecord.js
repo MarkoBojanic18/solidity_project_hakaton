@@ -15,7 +15,7 @@ const ServicePanelMedicalRecord = ({
   const patient = sessionStorage.getItem("patient");
   const [datum, setDatum] = useState("");
   const [diagnosesList, setDiagnosesList] = useState([]);
-  const [selectedDiagnosis, setSelectedDiagnosis] = useState("A0102");
+  const [selectedDiagnosis, setSelectedDiagnosis] = useState("A053");
 
   const fetchDiagnosesList = async () => {
     const someDiagnoses = [

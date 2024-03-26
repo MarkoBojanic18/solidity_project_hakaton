@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./ServicePanel.css";
+import PatientABI from "../../contracts/Patient.json";
+import MedicalPersonFactoryABI from "../../contracts/MedicalPersonFactory.json";
 
-const ServicePanelHeartRate = (props) => {
-  const [heartRate, setHeartRate] = useState(null);
+const ServicePanelHeartRate = ({ web3, patient_account, RecordFactoryAddress }) => {
+  const [heartRate, setHeartRate] = useState(0);
   const [heartRates, setHeartRates] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
@@ -20,19 +22,42 @@ const ServicePanelHeartRate = (props) => {
 
   const measureAgain = () => {
     setButtonIsClicked(true);
-    setHeartRate(null);
+    setHeartRate(0);
     setHeartRates([]);
     setIsSaved(false);
     measureHeartRate();
   };
 
-  const saveHeartRate = () => {
-    if (!isSaved && heartRate !== null) {
+  const saveHeartRate = async () => {
+    if (!isSaved && heartRate !== 0) {
       // Simulating saving heart rate to an array (replace with actual saving logic)
       setHeartRates([
         ...heartRates,
         { value: heartRate, timestamp: new Date() },
       ]);
+
+      const patientContract= new web3.eth.Contract(PatientABI.abi, patient);
+
+      const transactionParameters = {
+        to: patient,
+        from: patient_account, // must match user's active address
+        data: patientContract.methods
+        .addHeartRateToTheList(
+         heartRate
+         )
+         .encodeABI({ from: patient_account }),
+     }; // call to contract method
+        
+
+      // txHash is a hex string
+      const txHash = await window.ethereum.request({
+        method: "eth_sendTransaction",
+        params: [transactionParameters],
+      });
+
+      console.log("Transaction Hash:", txHash);
+      
+
       setIsSaved(true);
       showToast("Heart rate saved successfully");
     }

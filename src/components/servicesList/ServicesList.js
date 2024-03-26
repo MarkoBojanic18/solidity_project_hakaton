@@ -16,6 +16,7 @@ import ServicePanelMedicalRecord from "../ServicePanel/ServicePanelMedicalRecord
 import ServicePanelMedicine from "../ServicePanel/ServicePanelMedicine";
 import ServicePanelHeartRate from "../ServicePanel/ServicePanelHeartRate";
 import ServicePanelMeasurePressure from "../ServicePanel/ServicePanelMeasurePressure";
+import ServicePanelDoctor from "../ServicePanel/ServicePanelDoctor";
 
 function ServicesList(props) {
   const [showPanelAppointments, setshowPanelAppointments] = useState(false);
@@ -27,6 +28,8 @@ function ServicesList(props) {
     useState(false);
   const [showPanelHeartRate, setshowPanelHeartRate] = useState(false);
   const [showPanelMeasurePressure, setshowPanelMeasurePressure] =
+    useState(false);
+    const [showPanelDoctors, setshowPanelDoctors] =
     useState(false);
 
   const handleServiceClick = (id) => {
@@ -54,10 +57,16 @@ function ServicesList(props) {
     if (id == 8) {
       setshowPanelMeasurePressure(true);
     } else setshowPanelMeasurePressure(false);
+    if (id == 9) {
+      setshowPanelDoctors(true);
+    } else setshowPanelDoctors(false);
   };
 
   return (
     <div className="services-list">
+       <div className="services-list9" onClick={() => handleServiceClick(9)}>
+        <Service Icon={Insurance} Desc={"Doctors"}></Service>
+      </div>
       <div className="services-list7" onClick={() => handleServiceClick(7)}>
         <Service Icon={Insurance} Desc={"Measure heart rate"}></Service>
       </div>
@@ -146,6 +155,14 @@ function ServicesList(props) {
           patient_account={props.patient_account}
           web3={props.web3}
           onClose={() => setshowPanelMeasurePressure(false)}
+        />
+      )}
+        {showPanelDoctors && (
+        <ServicePanelDoctor
+          RecordFactoryAddress={props.RecordFactoryAddress}
+          patient_account={props.patient_account}
+          web3={props.web3}
+          onClose={() => setshowPanelDoctors(false)}
         />
       )}
     </div>

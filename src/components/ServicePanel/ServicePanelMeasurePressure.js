@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./ServicePanel.css";
+import PatientABI from "../../contracts/Patient.json";
+import MedicalPersonFactoryABI from "../../contracts/MedicalPersonFactory.json";
 
-const ServicePanelMeasurePressure = (props) => {
+
+const ServicePanelMeasurePressure = ({ web3, patient_account, RecordFactoryAddress }) => {
   const [bodyPressure, setBodyPressure] = useState(null);
   const [bodyPressures, setBodyPressures] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
@@ -28,7 +31,7 @@ const ServicePanelMeasurePressure = (props) => {
     measureBodyPressure();
   };
 
-  const saveBodyPressure = () => {
+  const saveBodyPressure = async () => {
     if (!isSaved && bodyPressure !== null) {
       // Simulating saving body pressure to an array (replace with actual saving logic)
       setBodyPressures([
@@ -39,6 +42,30 @@ const ServicePanelMeasurePressure = (props) => {
           timestamp: new Date(),
         },
       ]);
+
+      const patientContract= new web3.eth.Contract(PatientABI.abi, patient);
+
+      const transactionParameters = {
+        to: patient,
+        from: patient_account, // must match user's active address
+        data: patientContract.methods
+        . addBloodPressureToTheList(
+          bodyPressure.systolic,
+          bodyPressure.diastolic,
+         )
+         .encodeABI({ from: patient_account }),
+     }; // call to contract method
+        
+
+      // txHash is a hex string
+      const txHash = await window.ethereum.request({
+        method: "eth_sendTransaction",
+        params: [transactionParameters],
+      });
+
+      console.log("Transaction Hash:", txHash);
+
+
       setIsSaved(true);
       showToast("Body pressure saved successfully");
     }
