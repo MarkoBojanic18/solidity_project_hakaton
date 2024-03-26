@@ -1,0 +1,52 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+
+contract MedicalPerson{
+
+    address private medicalPersonAccount;  //address of medical person
+    string private first_name;   //first name of doctor
+    string private last_name;    //last name of doctor
+    string private roleName;        //position of the doctor
+
+    constructor(address _medicalPersonAccount,string memory _first_name,string memory _last_name,string memory _roleName){
+        medicalPersonAccount = _medicalPersonAccount;
+        first_name = _first_name;
+        last_name = _last_name;
+        roleName = _roleName;
+    }
+
+
+    function getMedicalPersonAccount() public view returns(address){
+        return medicalPersonAccount;
+    }
+
+    function setMedicalPersonAccount(address _medicalPersonAccount) public{
+        medicalPersonAccount = _medicalPersonAccount;
+    }
+
+    function getMedicalPersonFirstName() public view returns(string memory){
+        return first_name;
+    }
+
+    function setMedicalPersonFirstName(string memory _first_name) public{
+        first_name = _first_name;
+    }
+
+    function getMedicalPersonLastName() public view returns(string memory){
+        return last_name;
+    }
+
+    function setMedicalPersonLastName(string memory _last_name) public{
+        last_name = _last_name;
+    }
+
+    function getMedicalPersonRole() public view returns(string memory){
+        return roleName;
+    }
+
+    function setMedicalPersonRole(string memory _roleName) public{
+        roleName = _roleName;
+    }
+
+
+}

@@ -9,10 +9,13 @@ const Login = ({
   account,
   web3,
   RecordFactoryAddress,
-  DoctorFactoryAddress,
+  MedicalPersonFactoryAddress,
 }) => {
   sessionStorage.setItem("RecordFactoryAddress", RecordFactoryAddress);
-  sessionStorage.setItem("DoctorFactoryAddress", DoctorFactoryAddress);
+  sessionStorage.setItem(
+    "MedicalPersonFactoryAddress",
+    MedicalPersonFactoryAddress
+  );
   const [patientPassword, setClientData] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 

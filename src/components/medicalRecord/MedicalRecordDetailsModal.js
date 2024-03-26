@@ -115,14 +115,20 @@ const MedicalRecordDetailsModal = ({
               <td>Doctor writing this report</td>
               <td>{medicalRecord.doctorSignature}</td>
             </tr>
+            <tr>
+              <td>Medical Person who can see recipe</td>
+              <td>{medicalRecord.doctorWhoCanSeeRecipe}</td>
+            </tr>
 
             <div className="form">
-              <input className="input"
-              name="doctorWhoCanSeeRecipe"
-               placeholder="Enter a doctor with access" 
-               required="" 
-               type="text"
-               onChange={handleChange}/>
+              <input
+                className="input"
+                name="doctorWhoCanSeeRecipe"
+                placeholder="Enter a doctor with access"
+                required=""
+                type="text"
+                onChange={handleChange}
+              />
               <span className="input-border"></span>
             </div>
             {/* <input

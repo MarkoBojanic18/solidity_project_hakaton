@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import PatientABI from "../../contracts/Patient.json";
 import "./ServicePanel.css";
 import MedicalRecordDetailsModal from "../medicalRecord/MedicalRecordDetailsModal.js";
-import Calendar from "react-calendar"; 
 
 const ServicePanelMedicalRecord = ({
   web3,
@@ -14,22 +13,28 @@ const ServicePanelMedicalRecord = ({
   const [sortCriteria, setSortCriteria] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const patient = sessionStorage.getItem("patient");
-  const [datum, setDatum] = useState('');
+  const [datum, setDatum] = useState("");
   const [diagnosesList, setDiagnosesList] = useState([]);
-  const [selectedDiagnosis, setSelectedDiagnosis] = useState('A0102');
+  const [selectedDiagnosis, setSelectedDiagnosis] = useState("A0102");
 
   const fetchDiagnosesList = async () => {
-    const someDiagnoses = ["AO53", "A25", "A923","F321","Z010","JOO","A0102"];
+    const someDiagnoses = [
+      "AO53 - Intoxicatio alimentaria per Vibrionem parahaemolyticam",
+      "A25 - Febris post morsum muris",
+      "A923 - Febris West Nile",
+      "F321 - Episodium depressivum, gradus moderat",
+      "Z010 - Examination of ears and hearing",
+      "J00 - Nasopharyngitis acuta",
+      "A220 - Anthrax cutaneus",
+    ];
     setDiagnosesList(someDiagnoses);
-};
+  };
 
   useEffect(() => {
-    
-    fetchDiagnosesList ();
+    fetchDiagnosesList();
   }, []);
 
-
-//
+  //
   const loadMedicalRecords = async () => {
     try {
       const patientFactory = new web3.eth.Contract(PatientABI.abi, patient);
@@ -44,10 +49,10 @@ const ServicePanelMedicalRecord = ({
     }
   };
 
-///
+  ///
   const loadMedicalRecordsByDiagnosis = async () => {
-    if(selectedDiagnosis==''){
-      <p> Izaberite dijagnozu </p>
+    if (selectedDiagnosis == "") {
+      <p> Izaberite dijagnozu </p>;
     }
     try {
       const patientFactory = new web3.eth.Contract(PatientABI.abi, patient);
@@ -61,62 +66,61 @@ const ServicePanelMedicalRecord = ({
       console.error("Error while loading medical records for patient:", error);
     }
   };
-  
-//
-const loadMedicalRecordsByDate = async () => {
-  if (!datum) {
-    alert("You must choose date");
-    return;
-  }
 
-  const selectedDate = new Date(datum);
-  const currentDate = new Date();
+  //
+  const loadMedicalRecordsByDate = async () => {
+    if (!datum) {
+      alert("You must choose date");
+      return;
+    }
 
-  if (selectedDate > currentDate) {
-    alert("Date must be in past or today");
-    return;
-  }
-  try {
-    const patientFactory = new web3.eth.Contract(PatientABI.abi, patient);
+    const selectedDate = new Date(datum);
+    const currentDate = new Date();
 
-    const medicalRecordsFromContract = await patientFactory.methods
-      .getAllMedicalRecords()
-      .call();
+    if (selectedDate > currentDate) {
+      alert("Date must be in past or today");
+      return;
+    }
+    try {
+      const patientFactory = new web3.eth.Contract(PatientABI.abi, patient);
 
-      const medicalRecordsFilteredByDate = medicalRecordsFromContract.filter(medicalRecord => {
-        // Pretvoriti datum zapisa iz timestamp-a u Date objekat
-        const recordDate = new Date(Number(medicalRecord.date_time_of_record) * 1000);
-        console.log(recordDate);
-        console.log(selectedDate.toDateString());
-        // Provera da li je datum zapisa jednak izabranom datumu
-        return recordDate.toDateString() === selectedDate.toDateString();
-      });
-  
-       console.log(medicalRecordsFilteredByDate);
-      setMedicalRecords(medicalRecordsFilteredByDate)
-     
-   
-  } catch (error) {
-    console.error("Error while loading medical records for patient:", error);
-  }
-};
+      const medicalRecordsFromContract = await patientFactory.methods
+        .getAllMedicalRecords()
+        .call();
 
+      const medicalRecordsFilteredByDate = medicalRecordsFromContract.filter(
+        (medicalRecord) => {
+          // Pretvoriti datum zapisa iz timestamp-a u Date objekat
+          const recordDate = new Date(
+            Number(medicalRecord.date_time_of_record) * 1000
+          );
+          console.log(recordDate);
+          console.log(selectedDate.toDateString());
+          // Provera da li je datum zapisa jednak izabranom datumu
+          return recordDate.toDateString() === selectedDate.toDateString();
+        }
+      );
 
+      console.log(medicalRecordsFilteredByDate);
+      setMedicalRecords(medicalRecordsFilteredByDate);
+    } catch (error) {
+      console.error("Error while loading medical records for patient:", error);
+    }
+  };
 
-  /// fje kad se klikne na dugme 
+  /// fje kad se klikne na dugme
   const handleSubmitAllRecords = async () => {
     loadMedicalRecords();
   };
-  
-  const handleSubmitDate= async () => { 
+
+  const handleSubmitDate = async () => {
     try {
-     loadMedicalRecordsByDate();
+      loadMedicalRecordsByDate();
     } catch (error) {
       console.error("Error while fetching medical records by date:", error);
     }
   };
 
-    
   const handleSubmitDiagnosis = async () => {
     try {
       loadMedicalRecordsByDiagnosis();
@@ -171,28 +175,35 @@ const loadMedicalRecordsByDate = async () => {
     setSelectedMedicalRecord(medicalRecord);
   };
 
-
-
-
-
   return (
     <div className="client-list">
       <h1 className="client-list-title">Medical Records</h1>
       <label htmlFor="calendar">Choose date:</label>
-        <input type="date" id="calendar" value={datum} onChange={(e) => setDatum(e.target.value)} />
+      <input
+        type="date"
+        id="calendar"
+        value={datum}
+        onChange={(e) => setDatum(e.target.value)}
+      />
 
-        <select value={selectedDiagnosis} onChange={(e) => setSelectedDiagnosis(e.target.value)}>
+      <select
+        value={selectedDiagnosis}
+        onChange={(e) => setSelectedDiagnosis(e.target.value)}
+      >
         {diagnosesList.map((diagnosis, index) => (
-          <option key={index} value={diagnosis}>{diagnosis}</option>
-        ))}</select>
+          <option key={index} value={diagnosis}>
+            {diagnosis}
+          </option>
+        ))}
+      </select>
 
-        <button className="modal-button" onClick={handleSubmitDate}>
-          <span className="box">Show records by date</span>
-        </button>
-        <button className="modal-button" onClick={handleSubmitDiagnosis}>
-          <span className="box">Show records by diagnosis</span>
-        </button>
-        <button className="modal-button" onClick={handleSubmitAllRecords}>
+      <button className="modal-button" onClick={handleSubmitDate}>
+        <span className="box">Show records by date</span>
+      </button>
+      <button className="modal-button" onClick={handleSubmitDiagnosis}>
+        <span className="box">Show records by diagnosis</span>
+      </button>
+      <button className="modal-button" onClick={handleSubmitAllRecords}>
         <span className="box">Show all records</span>
       </button>
       <table>
@@ -218,9 +229,12 @@ const loadMedicalRecordsByDate = async () => {
             <tr key={index}>
               <td>{medicalRecord.typeOfRecord}</td>
               <td>{formatDate(Number(medicalRecord.date_time_of_record))}</td>
-                <button className="change-button button2" onClick={() => openDetailsModal(medicalRecord)}>
-                  Details
-                </button>
+              <button
+                className="change-button button2"
+                onClick={() => openDetailsModal(medicalRecord)}
+              >
+                Details
+              </button>
             </tr>
           ))}
         </tbody>
@@ -240,24 +254,3 @@ const loadMedicalRecordsByDate = async () => {
 };
 
 export default ServicePanelMedicalRecord;
-
-
-
-
-
-
-
-
-
-
-  
-   
-
-
-  
-  
-
-
-
-     
-     

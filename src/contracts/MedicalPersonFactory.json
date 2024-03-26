@@ -1,0 +1,160 @@
+{
+  "contractName": "MedicalPersonFactory",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_medicalPersonAccount",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_first_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_last_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_roleName",
+          "type": "string"
+        }
+      ],
+      "name": "createNewMedicalPerson",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllMedicalPersons",
+      "outputs": [
+        {
+          "internalType": "contract MedicalPerson[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllMedicalPersonsAsArray",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "medicalPersonAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "first_name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "last_name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "roleName",
+              "type": "string"
+            }
+          ],
+          "internalType": "struct MedicalPersonFactory.MedicalPersonAuxiliary[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_medicalPerson",
+          "type": "address"
+        }
+      ],
+      "name": "getMedicalPersonsAsObject",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "medicalPersonAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "first_name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "last_name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "roleName",
+              "type": "string"
+            }
+          ],
+          "internalType": "struct MedicalPersonFactory.MedicalPersonAuxiliary",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_roleName",
+          "type": "string"
+        }
+      ],
+      "name": "returnMedicalPersonsByRole",
+      "outputs": [
+        {
+          "internalType": "contract MedicalPerson[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_medicalPersonAccount",
+          "type": "address"
+        }
+      ],
+      "name": "returnSpecificMedicalPerson",
+      "outputs": [
+        {
+          "internalType": "contract MedicalPerson",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}

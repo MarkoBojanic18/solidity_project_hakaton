@@ -59,7 +59,7 @@
         },
         {
           "internalType": "address",
-          "name": "_doctorWhoCanSeeRecipe",
+          "name": "_medicalPersonWhoCanSeeRecipe",
           "type": "address"
         }
       ],

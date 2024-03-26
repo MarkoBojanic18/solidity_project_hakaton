@@ -13,19 +13,32 @@ contract Patient{
     string private height;             // in format 185 (measure will be cm}
     string private weight;               // in fromat 80 (measur will be kg}
     address private mainDoctor;         // address of the patient's main doctor
-    address[] private doctors_with_access;   // list of the doctors which can see patient's medical records
+    address[] private medical_persons_with_access;   // list of the medical persons which can see patient's medical records
     EmergencyPerson private emergencyPerson;   //a person who will be contacted if it is neccessary to make a decision instead of patient
     Insurance[] private insurances;            //list of insurances which patinet takes
     Immunisation[] private immunisations;        //list of immunisations which patient got
     bool private donor;                         //if patient is donor {true, false}
     string[] private donations;               // list of organs which patient will donate
     MedicalRecord[] private medicalRecords;            //list of insurances which patinet takes
+    HeartRate[] private heartRateList;           //list of heart rate records
+    BloodPressure[] private bloodPressureList;           //list of blood pressure records
     uint256 counterMedicalRecord = 0;                
     
     struct EmergencyPerson{
         string first_name;  // first name of emergency person
         string last_name;   // last name of emergency person
         string contact;    // phone number of emergency person
+    }
+
+    struct HeartRate{
+        uint256 rate;           //number of heart rates
+        uint256 date_time;      //date and time when reacord is made
+    }
+
+    struct BloodPressure{ 
+        uint256 systolic;       //upper pressure
+        uint256 diastolic;      //lower pressure
+        uint256 date_time;      //date and time when reacord is made
     }
 
     struct MedicalRecord{
@@ -36,7 +49,7 @@ contract Patient{
     uint256  date_time_of_record; //datum kada je napravljen record
     string  recipe; // recept
     address  patient; // address of patiente
-    address doctorWhoCanSeeRecipe; //person in pharmacy who can see patiente's recipe
+    address medicalPersonWhoCanSeeRecipe; //person in pharmacy who can see patiente's recipe
     }
 
     struct Insurance{
@@ -68,65 +81,65 @@ contract Patient{
         return id_account;
     }
 
-    function setPatienceAccount(address id) public {
-        id_account = id;
-    }
+    // function setPatienceAccount(address id) public {
+    //     id_account = id;
+    // }
 
     function getPatienceFirstName() public view returns(string memory){
         return first_name;
     }
 
-    function setPatienceFirstName(string memory fn) public {
-        first_name = fn;
-    }
+    // function setPatienceFirstName(string memory fn) public {
+    //     first_name = fn;
+    // }
 
     function getPatienceLastName() public view returns(string memory){ 
         return last_name;
     }
 
-    function setPatienceLastName(string memory ln) public {
-        last_name = ln;
-    }
+    // function setPatienceLastName(string memory ln) public {
+    //     last_name = ln;
+    // }
 
     function getPatiencePassword() public view returns(string memory){ 
         return password;
     }
 
-    function setPatiencePassword(string memory pass) public {
-        password = pass;
-    }
+    // function setPatiencePassword(string memory pass) public {
+    //     password = pass;
+    // }
 
     function getPatienceGender() public view returns(string memory){ 
         return gender;
     }
 
-    function setPatienceGender(string memory gend) public {
-        gender = gend;
-    }
+    // function setPatienceGender(string memory gend) public {
+    //     gender = gend;
+    // }
 
     function getPatienceYearOfBirth() public view returns(string memory){ 
         return year_of_birth;
     }
 
-    function setPatienceYearOfBirth(string memory year) public {
-        year_of_birth = year;
-    }
+    // function setPatienceYearOfBirth(string memory year) public {
+    //     year_of_birth = year;
+    // }
 
     function getUniqueIdentificationNumber() public view returns(string memory){ 
         return unique_in;
     }
 
-    function setUniqueIdentificationNumber(string memory uin) public {
-        unique_in = uin;
-    }
+    // function setUniqueIdentificationNumber(string memory uin) public {
+    //     unique_in = uin;
+    // }
 
 function getBloodType() public view returns(string memory){ 
         return blood_type;
     }
 
-    function setBloodType(string memory _blood_type) public {
-        blood_type = _blood_type;
-    }
+    // function setBloodType(string memory _blood_type) public {
+    //     blood_type = _blood_type;
+    // }
 
     function getHeight() public view returns(string memory){ 
         return height;
@@ -152,18 +165,17 @@ function getBloodType() public view returns(string memory){
         mainDoctor = mainDoc;
     }
 
-     function getAllDoctorsWithAccess() public view returns(address[] memory){ 
-        return doctors_with_access;
+     function getAllMedicalPersonsWithAccess() public view returns(address[] memory){ 
+        return medical_persons_with_access;
     }
 
-
-    //this function only checks for another functions if doctor is in the list and returns false
-    // if it isn't and true if doctor is in the list.
-    function doesDoctorWithAccessExistInTheList(address doctor) private view returns(bool){
-         uint arrayLength = doctors_with_access.length;
+    //this function only checks for another functions if medical person is in the list and returns false
+    // if it isn't and true if medical person is in the list.
+    function doesMedicalPersonWithAccessExistInTheList(address medicalPerson) private view returns(bool){
+         uint arrayLength = medical_persons_with_access.length;
 
         for(uint i = 0; i < arrayLength; i++){
-            if(doctors_with_access[i] == doctor){
+            if(medical_persons_with_access[i] == medicalPerson){
                 return true;
             }
         }
@@ -171,25 +183,25 @@ function getBloodType() public view returns(string memory){
         return false;
     }
 
-    //this function adds doctor to the list of doctors which can access patient's medical records
-    //if doctor hasn't been already added to the list.
-    function addDoctorWithAccess(address doctor) public {
-       if(!doesDoctorWithAccessExistInTheList(doctor)){
-        doctors_with_access.push(doctor);
+    //this function adds medical person to the list of medical persons which can access patient's medical records
+    //if medical person hasn't been already added to the list.
+    function addMedicalPersonWithAccess(address medicalPerson) public {
+       if(!doesMedicalPersonWithAccessExistInTheList(medicalPerson)){
+        medical_persons_with_access.push(medicalPerson);
        }
     }
 
     //this function throws doctor from the list of doctors who can see patient's medical record.
-    function throwDoctorFromTheListWithAccess(address doctor)public{
-       uint arrayLength = doctors_with_access.length;
+    function throwMedicalPersonFromTheListWithAccess(address medicalPerson)public{
+       uint arrayLength = medical_persons_with_access.length;
 
         for(uint i = 0; i < arrayLength; i++) {
-        if(doctors_with_access[i] == doctor) {
-            // Remove the doctor from the array
+        if(medical_persons_with_access[i] == medicalPerson) {
+            // Remove the medical person from the array
             // Move the last element to the position to be deleted
-            doctors_with_access[i] = doctors_with_access[arrayLength - 1];
+            medical_persons_with_access[i] = medical_persons_with_access[arrayLength - 1];
             // Remove the last element
-            doctors_with_access.pop();
+            medical_persons_with_access.pop();
             return; // Exit the function once the doctor is removed
         }
     }
@@ -206,7 +218,6 @@ function getBloodType() public view returns(string memory){
     ) public {
         emergencyPerson = EmergencyPerson(_firstName, _lastName, _contact);
     }
-
 
     function addInsuranceToTheList(string memory _typeOfInsurance, string memory _insuranceCoverage) public  {
             Insurance memory insurance = Insurance(_typeOfInsurance,_insuranceCoverage,false);
@@ -234,8 +245,6 @@ function getBloodType() public view returns(string memory){
        donor = _donor;
     }
 
-
-
     function addImmunisationToTheList(string memory _typeOfImmun) public  {
         uint256 _date_time_of_imun = block.timestamp;
             Immunisation memory immunisation = Immunisation(_typeOfImmun,_date_time_of_imun);
@@ -257,16 +266,18 @@ function getBloodType() public view returns(string memory){
         medicalRecords.push(medicalRecord);
     }
 
-    function changeMedicalRecord(uint256 _id, address _doctorWhoCanSeeRecipe) public{
+    function changeMedicalRecord(uint256 _id, address _medicalPersonWhoCanSeeRecipe) public{
         uint256 arrayLength = medicalRecords.length;
 
         for (uint256 i = 0; i < arrayLength; i++) {
         if (medicalRecords[i].id == _id) {
-            medicalRecords[i].doctorWhoCanSeeRecipe = _doctorWhoCanSeeRecipe;
+            medicalRecords[i].medicalPersonWhoCanSeeRecipe = _medicalPersonWhoCanSeeRecipe;
         }
     }
     }
 
+    //this function return medical records by diagnose. It loops trough medicalRecords array and returns  array of
+    //medical records for which criteria is achieved.
     function getMedicalRecordByDaignose(string memory _diagnose) public view returns(MedicalRecord[] memory){
        uint256 arrayLength = medicalRecords.length;
     MedicalRecord[] memory diagnoseMedicalRecord = new MedicalRecord[](arrayLength);
@@ -288,7 +299,44 @@ function getBloodType() public view returns(string memory){
     return diagnoseMedicalRecord;
     }
 
-    
+    //this function returns all recipes for patient (returns list of recipes which are strings)
+    function getAllReceipesForPatient() public view returns(string[] memory){
+         uint arrayLength = medicalRecords.length;
+         string[] memory recipesList = new string[](arrayLength);
+         uint256 count = 0;
 
+
+        for(uint i = 0; i < arrayLength; i++){
+           recipesList[count] = medicalRecords[i].recipe;
+            count++;
+        }
+
+            // Resize the array to remove any uninitialized elements
+        assembly {
+            mstore(recipesList, count)
+        }
+
+        return recipesList;
+    }
+
+    function addHeartRateToTheList(uint256 _rate) public  {
+            uint256 _date_time_of_record = block.timestamp;
+            HeartRate memory heartRate = HeartRate(_rate,_date_time_of_record);
+            heartRateList.push(heartRate);
+    }
+
+    function getHeartRateList() public view returns(HeartRate[] memory){
+            return heartRateList;
+    }
+
+    function addBloodPressureToTheList(uint256 _upper, uint256 _lower) public  {
+            uint256 _date_time_of_record = block.timestamp;
+            BloodPressure memory bloodPressure = BloodPressure(_upper,_lower,_date_time_of_record);
+            bloodPressureList.push(bloodPressure);
+    }
+
+    function getBloodPressureList() public view returns(BloodPressure[] memory){
+            return bloodPressureList;
+    }
 
 }

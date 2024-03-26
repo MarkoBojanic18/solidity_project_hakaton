@@ -9,8 +9,9 @@ const Main = () => {
   const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
 
-  const RecordFactoryAddress = "0xFb206505918385b8a4150492B10f7e28c90D856D";
-  const DoctorFactoryAddress = "0x48d0d60AA3B2A77C16f190a8D491f55bdC856f90";
+  const RecordFactoryAddress = "0xc6B8d4499F68Bceb9b73f0ec7C1F1126A0c50BaE";
+  const MedicalPersonFactoryAddress =
+    "0xdeD86Bc19d149A625EB42A3DfbD4b668df57675b";
   const sepoliaRPCUrl =
     "https://sepolia.infura.io/v3/67bc1009f5a547cc978659e13579ddf0";
 
@@ -83,7 +84,7 @@ const Main = () => {
                 account={account}
                 onClose={() => setShowCreateModal(false)}
                 RecordFactoryAddress={RecordFactoryAddress}
-                DoctorFactoryAddress={DoctorFactoryAddress}
+                MedicalPersonFactoryAddress={MedicalPersonFactoryAddress}
               />
             )}
           </div>

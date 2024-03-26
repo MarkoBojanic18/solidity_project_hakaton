@@ -60,12 +60,17 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "doctor",
-          "type": "address"
+          "internalType": "uint256",
+          "name": "_upper",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_lower",
+          "type": "uint256"
         }
       ],
-      "name": "addDoctorWithAccess",
+      "name": "addBloodPressureToTheList",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -79,6 +84,19 @@
         }
       ],
       "name": "addDonationToTheList",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_rate",
+          "type": "uint256"
+        }
+      ],
+      "name": "addHeartRateToTheList",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -155,13 +173,26 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "medicalPerson",
+          "type": "address"
+        }
+      ],
+      "name": "addMedicalPersonWithAccess",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "_id",
           "type": "uint256"
         },
         {
           "internalType": "address",
-          "name": "_doctorWhoCanSeeRecipe",
+          "name": "_medicalPersonWhoCanSeeRecipe",
           "type": "address"
         }
       ],
@@ -172,7 +203,7 @@
     },
     {
       "inputs": [],
-      "name": "getAllDoctorsWithAccess",
+      "name": "getAllMedicalPersonsWithAccess",
       "outputs": [
         {
           "internalType": "address[]",
@@ -226,11 +257,54 @@
             },
             {
               "internalType": "address",
-              "name": "doctorWhoCanSeeRecipe",
+              "name": "medicalPersonWhoCanSeeRecipe",
               "type": "address"
             }
           ],
           "internalType": "struct Patient.MedicalRecord[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAllReceipesForPatient",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getBloodPressureList",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "systolic",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "diastolic",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "date_time",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Patient.BloodPressure[]",
           "name": "",
           "type": "tuple[]"
         }
@@ -302,6 +376,31 @@
           "internalType": "struct Patient.EmergencyPerson",
           "name": "",
           "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getHeartRateList",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "rate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "date_time",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Patient.HeartRate[]",
+          "name": "",
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",
@@ -437,7 +536,7 @@
             },
             {
               "internalType": "address",
-              "name": "doctorWhoCanSeeRecipe",
+              "name": "medicalPersonWhoCanSeeRecipe",
               "type": "address"
             }
           ],
@@ -556,19 +655,6 @@
     {
       "inputs": [
         {
-          "internalType": "string",
-          "name": "_blood_type",
-          "type": "string"
-        }
-      ],
-      "name": "setBloodType",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "bool",
           "name": "_donor",
           "type": "bool"
@@ -631,97 +717,6 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "id",
-          "type": "address"
-        }
-      ],
-      "name": "setPatienceAccount",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "fn",
-          "type": "string"
-        }
-      ],
-      "name": "setPatienceFirstName",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "gend",
-          "type": "string"
-        }
-      ],
-      "name": "setPatienceGender",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "ln",
-          "type": "string"
-        }
-      ],
-      "name": "setPatienceLastName",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "pass",
-          "type": "string"
-        }
-      ],
-      "name": "setPatiencePassword",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "year",
-          "type": "string"
-        }
-      ],
-      "name": "setPatienceYearOfBirth",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "uin",
-          "type": "string"
-        }
-      ],
-      "name": "setUniqueIdentificationNumber",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "string",
           "name": "_weight",
           "type": "string"
@@ -736,11 +731,11 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "doctor",
+          "name": "medicalPerson",
           "type": "address"
         }
       ],
-      "name": "throwDoctorFromTheListWithAccess",
+      "name": "throwMedicalPersonFromTheListWithAccess",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

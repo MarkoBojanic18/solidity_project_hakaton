@@ -1,0 +1,119 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+
+import "./MedicalPerson.sol";
+
+contract MedicalPersonFactory{
+
+    MedicalPerson[] private medicalPersons;                 // list of medical persons
+
+    struct MedicalPersonAuxiliary{
+        address medicalPersonAddress; 
+        string  first_name;
+        string last_name;
+        string roleName;
+    }
+
+    function createNewMedicalPerson(address _medicalPersonAccount,string memory _first_name,string memory _last_name,string memory _roleName) public {
+        MedicalPerson newMedicalPerson = new MedicalPerson(_medicalPersonAccount,_first_name,_last_name,_roleName);
+
+        if(!checkNewMedicalPerson(newMedicalPerson)){
+             medicalPersons.push(newMedicalPerson);
+        }
+    }
+
+
+//this function is only internal function which is being used by createNewDoctor function.
+//this function loops through the list of doctors and returns true or false if doctor is in the list.
+     function checkNewMedicalPerson(MedicalPerson newMedicalPerson)private view returns(bool){
+        uint arrayLength = medicalPersons.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(medicalPersons[i].getMedicalPersonAccount() == newMedicalPerson.getMedicalPersonAccount()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function returnSpecificMedicalPerson(address _medicalPersonAccount) public view returns(MedicalPerson){
+        uint arrayLength = medicalPersons.length;
+
+        for(uint i = 0; i < arrayLength; i++){
+            if(medicalPersons[i].getMedicalPersonAccount() == _medicalPersonAccount){
+                return medicalPersons[i];
+            }
+        }
+
+        return MedicalPerson(address(0));
+    }
+
+    function returnMedicalPersonsByRole(string memory _roleName) public view returns(MedicalPerson[] memory){
+    uint256 arrayLength = medicalPersons.length;
+    MedicalPerson[] memory medicalPersonsByRole = new MedicalPerson[](arrayLength);
+    uint256 count = 0;
+
+    for (uint256 i = 0; i < arrayLength; i++) {
+        if (keccak256(bytes(medicalPersons[i].getMedicalPersonRole())) == keccak256(bytes(_roleName))) {
+            // If the category matches, add the expense to the result array
+            medicalPersonsByRole[count] = medicalPersons[i];
+            count++;
+        }
+    }
+
+     // Resize the array to remove any uninitialized elements
+    assembly {
+        mstore(medicalPersonsByRole, count)
+    }
+
+    return medicalPersonsByRole;
+    }
+
+    function getAllMedicalPersons() public view returns(MedicalPerson[] memory){
+        return medicalPersons;
+    }
+
+
+    //this function loops trough medicalPersons list and finds specific medical person and returns it as object in order to
+    //be easier to manipulate with it on frontend
+    function getMedicalPersonsAsObject(address _medicalPerson)public view returns(MedicalPersonAuxiliary memory){
+        uint256 arrayLength = medicalPersons.length;
+
+        for (uint256 i = 0; i < arrayLength; i++) {
+            if (medicalPersons[i].getMedicalPersonAccount() == _medicalPerson) {
+                return MedicalPersonAuxiliary(medicalPersons[i].getMedicalPersonAccount(), medicalPersons[i].getMedicalPersonFirstName(), medicalPersons[i].getMedicalPersonLastName(),medicalPersons[i].getMedicalPersonRole());
+            }
+        }
+
+        return MedicalPersonAuxiliary(address(0),"","","");
+    }
+
+
+
+
+    //this function loops trough medicalPersons list and make a new list of objects in order to
+    //be easier to manipulate with them on frontend
+    function getAllMedicalPersonsAsArray()public view returns(MedicalPersonAuxiliary[] memory){
+        uint256 arrayLength = medicalPersons.length;
+        MedicalPersonAuxiliary[] memory medicalPersonsAsArray = new MedicalPersonAuxiliary[](arrayLength);
+        uint256 count = 0;
+
+        for (uint256 i = 0; i < arrayLength; i++) {
+            medicalPersonsAsArray[count].medicalPersonAddress = medicalPersons[i].getMedicalPersonAccount();
+            medicalPersonsAsArray[count].first_name = medicalPersons[i].getMedicalPersonFirstName();
+            medicalPersonsAsArray[count].last_name = medicalPersons[i].getMedicalPersonLastName();
+            medicalPersonsAsArray[count].roleName = medicalPersons[i].getMedicalPersonRole();
+            count++;
+        }
+
+        // Resize the array to remove any uninitialized elements
+        assembly {
+            mstore(medicalPersonsAsArray, count)
+        }
+
+        return medicalPersonsAsArray;
+    }
+
+
+}

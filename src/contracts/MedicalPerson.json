@@ -1,11 +1,11 @@
 {
-  "contractName": "Doctor",
+  "contractName": "MedicalPerson",
   "abi": [
     {
       "inputs": [
         {
           "internalType": "address",
-          "name": "_doctorAccount",
+          "name": "_medicalPersonAccount",
           "type": "address"
         },
         {
@@ -20,7 +20,7 @@
         },
         {
           "internalType": "string",
-          "name": "_role",
+          "name": "_roleName",
           "type": "string"
         }
       ],
@@ -29,7 +29,7 @@
     },
     {
       "inputs": [],
-      "name": "getDoctorAccount",
+      "name": "getMedicalPersonAccount",
       "outputs": [
         {
           "internalType": "address",
@@ -42,7 +42,7 @@
     },
     {
       "inputs": [],
-      "name": "getDoctorFirstName",
+      "name": "getMedicalPersonFirstName",
       "outputs": [
         {
           "internalType": "string",
@@ -55,7 +55,7 @@
     },
     {
       "inputs": [],
-      "name": "getDoctorLastName",
+      "name": "getMedicalPersonLastName",
       "outputs": [
         {
           "internalType": "string",
@@ -68,7 +68,7 @@
     },
     {
       "inputs": [],
-      "name": "getDoctorRole",
+      "name": "getMedicalPersonRole",
       "outputs": [
         {
           "internalType": "string",
@@ -83,11 +83,11 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_doctorAccount",
+          "name": "_medicalPersonAccount",
           "type": "address"
         }
       ],
-      "name": "setDoctorAccount",
+      "name": "setMedicalPersonAccount",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -100,7 +100,7 @@
           "type": "string"
         }
       ],
-      "name": "setDoctorFirstName",
+      "name": "setMedicalPersonFirstName",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -113,7 +113,7 @@
           "type": "string"
         }
       ],
-      "name": "setDoctorLastName",
+      "name": "setMedicalPersonLastName",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -122,11 +122,11 @@
       "inputs": [
         {
           "internalType": "string",
-          "name": "_role",
+          "name": "_roleName",
           "type": "string"
         }
       ],
-      "name": "setDoctorRole",
+      "name": "setMedicalPersonRole",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

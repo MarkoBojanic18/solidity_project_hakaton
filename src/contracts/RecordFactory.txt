@@ -5,7 +5,7 @@ import "./Patient.sol";
 
 contract RecordFactory{
 
-    Patient[] private patients;                 // list of patients
+    Patient[] private patients;  // list of patients
 
     // PATIENT
 
@@ -16,11 +16,7 @@ contract RecordFactory{
            patients.push(newPatient);
         }
 
-        
-        
-
     }
-
 
 //this function is only internal function which is being used by createPatient function.
 //this function loops through the list of patients and returns true or false if patient is in the list.
@@ -49,7 +45,6 @@ contract RecordFactory{
         return Patient(address(0));
     }
 
-
     function getAllPatients() public view returns(Patient[] memory){
         return patients;
     }
@@ -66,7 +61,6 @@ contract RecordFactory{
 
         return false;
     }
-
 
     function addNewInsuranceToPatientList(string memory _typeOfInsurance, string memory _insuranceCoverage) public {
          uint arrayLength = patients.length;
@@ -90,7 +84,6 @@ contract RecordFactory{
 
     }
 
-
     function addNewDonationToPatientList(string memory _organ) public {
          uint arrayLength = patients.length;
 
@@ -102,7 +95,7 @@ contract RecordFactory{
 
     }
 
-
+    
     //Medical Record
 
     function createMedicalRecord(string memory _typeOfRec, string memory _desc, address _docSignature, address _patient, string memory _recipe) public {
@@ -115,54 +108,13 @@ contract RecordFactory{
         }
     }
 
-    function changeMedicalRecordForPatient(uint256 _idn, address _doctorWhoCanSeeRecipe) public {
+    function changeMedicalRecordForPatient(uint256 _idn, address _medicalPersonWhoCanSeeRecipe) public {
         uint arrayLength = patients.length;
 
         for(uint i = 0; i < arrayLength; i++){
             if(patients[i].getPatienceAccount() == msg.sender){
-                patients[i].changeMedicalRecord(_idn,_doctorWhoCanSeeRecipe);
+                patients[i].changeMedicalRecord(_idn,_medicalPersonWhoCanSeeRecipe);
             }
         }
     }
-
-
-    // DOCTOR
-
-
-
-    // function createNewDoctor(address _doctorAccount,string memory _first_name,string memory _last_name,string memory _role) public {
-    //     Doctor newDoctor = new Doctor(_doctorAccount,_first_name,_last_name,_role);
-
-    //     if(!checkNewDoctor(newDoctor)){
-    //          doctors.push(newDoctor);
-    //     }
-    // }
-
-
-// //this function is only internal function which is being used by createNewDoctor function.
-// //this function loops through the list of doctors and returns true or false if doctor is in the list.
-//      function checkNewDoctor(Doctor newDoctor)private view returns(bool){
-//         uint arrayLength = doctors.length;
-
-//         for(uint i = 0; i < arrayLength; i++){
-//             if(doctors[i].getDoctorAccount() == newDoctor.getDoctorAccount()){
-//                 return true;
-//             }
-//         }
-
-//         return false;
-//     }
-
-
-
-
-//     function getAllDoctors() public view returns(Doctor[] memory){
-//         return doctors;
-//     }
-
-
-
-
-
-
 }
