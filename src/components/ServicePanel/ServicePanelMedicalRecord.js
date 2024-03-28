@@ -225,19 +225,22 @@ const ServicePanelMedicalRecord = ({
               Date {sortCriteria === "date" && sortDirection === "asc" && "↑"}
               {sortCriteria === "date" && sortDirection === "desc" && "↓"}
             </th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {sortedMedicalRecords.map((medicalRecord, index) => (
-            <tr key={index}>
+            <tr key={index}   onClick={() => openDetailsModal(medicalRecord)}>
               <td>{medicalRecord.typeOfRecord}</td>
               <td>{formatDate(Number(medicalRecord.date_time_of_record))}</td>
+              <td>
               <button
                 className="change-button button2"
                 onClick={() => openDetailsModal(medicalRecord)}
               >
                 Details
               </button>
+              </td>
             </tr>
           ))}
         </tbody>

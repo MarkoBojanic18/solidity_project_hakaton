@@ -101,14 +101,14 @@ const ServicePanelMeasurePressure = ({ web3, patient_account, RecordFactoryAddre
           )}
         </div>
         <div className="button-group-measure">
-          <button className="button-measure" onClick={measureAgain}>
+          <button className="button-measure measure-btn" onClick={measureAgain}>
             Measure Body Pressure
           </button>
           
-          <button className="button-measure" onClick={saveBodyPressure}>
+          <button className="button-measure save-measure-btn" onClick={saveBodyPressure}>
             Save
           </button>
-          <button className="button-measure">Show history</button>
+          <button className="button-measure history-btn">Show history</button>
         </div>
       </div>
 

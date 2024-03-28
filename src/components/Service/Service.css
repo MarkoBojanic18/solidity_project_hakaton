@@ -53,14 +53,14 @@
 }
 
 .service:hover:before {
-  border-color: #004c4e;
+  border-color: #00ffbfdf;
   height: 100%;
   transform: translateX(0);
   transition: .3s transform linear, .3s height linear .3s;
 }
 
 .service:hover:after {
-  border-color: #004c4e;
+  border-color: #00ffbfdf;
   height: 100%;
   transform: translateX(0);
   transition: .3s transform linear, .3s height linear .5s;

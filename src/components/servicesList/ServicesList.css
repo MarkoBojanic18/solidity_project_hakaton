@@ -16,7 +16,7 @@
 /* Scrollbar width and color */
 .services-list {
     scrollbar-width: thin;
-    scrollbar-color: #39b5af transparent;
+    scrollbar-color: #268391 transparent;
     scroll-behavior: smooth;
 }
 .services-open-wrapper {
@@ -24,11 +24,11 @@
     height: 80vh;
     background-color: whitesmoke;
     border: 1px solid black;
-    padding: 10px;
+    padding: 20px;
     border-radius: 8px;
     overflow-y: scroll;
     scrollbar-width: thin;
-    scrollbar-color: #39b5af transparent;
+    scrollbar-color: #268391 transparent;
     scroll-behavior: smooth;
 }
 .services-list-panel-wrapper {

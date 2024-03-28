@@ -12,29 +12,30 @@ function ServicePanelLaboratory() {
 
   return (
 
-    <div>
+    <div className="laboratory-containter">
    <div className="lab-wrapper">
+    <h1 className="client-list-title">Laboratory reports of patient</h1>
 
-    <div className="lab-header">
+    {/* <div className="lab-header">
         <div className="lab-report-name">Laboratory Report</div>
         <div className="lab-report-date">Date</div>
         <div className=""></div>
-    </div>
+    </div> */}
     
-        <div className="all-lab-reports">
+        <div className="all-lab-reports" onClick={handleDetailsClick} >
         <div className="lab-report-name">General Report </div>
         <div className="lab-report-date">03/27/2024 7:08:32 PM </div>
-        <button className="change-buttton button2" onClick={handleDetailsClick}>Details</button>
+        {/* <button className="change-buttton button2" onClick={handleDetailsClick}>Details</button> */}
     </div>
-    <div className="all-lab-reports">
+    <div className="all-lab-reports" onClick={handleDetailsClick}>
         <div className="lab-report-name">General Report </div>
         <div className="lab-report-date">03/27/2024 7:08:32 PM </div>
-        <button className="change-buttton button2" onClick={handleDetailsClick}>Details</button>
+        {/* <button className="change-buttton button2" onClick={handleDetailsClick}>Details</button> */}
     </div>
-    <div className="all-lab-reports">
+    <div className="all-lab-reports" onClick={handleDetailsClick}>
         <div className="lab-report-name">General Report </div>
         <div className="lab-report-date">03/27/2024 7:08:32 PM </div>
-        <button className="change-buttton button2" onClick={handleDetailsClick}>Details</button>
+        {/* <button className="change-buttton button2" onClick={handleDetailsClick}>Details</button> */}
     </div>
 
    

@@ -139,10 +139,10 @@ const MedicalRecordDetailsModal = ({
             /> */}
           </tbody>
         </table>
-        <button className="cancel-button" onClick={handleSubmit}>
+        <button className="cancel-button save-record" onClick={handleSubmit}>
           Save
         </button>
-        <button className="cancel-button" onClick={onClose}>
+        <button className="cancel-button cancel-button1" onClick={onClose}>
           Cancel
         </button>
       </div>

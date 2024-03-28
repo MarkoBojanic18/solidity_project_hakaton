@@ -34,7 +34,7 @@ function ServicesList(props) {
   const [showPanelMeasurePressure, setshowPanelMeasurePressure] =
     useState(false);
     const [showPanelDoctors, setshowPanelDoctors] =
-    useState(false);
+    useState(true);
 
   const handleServiceClick = (id) => {
     if (id == 1) {

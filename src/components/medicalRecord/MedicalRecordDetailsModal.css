@@ -13,7 +13,7 @@ table {
   font-family: monospace;
   border-collapse: collapse;
   width: 100%;
-  background-color: #2ac6ff33;
+
 }
 thead {
   background-color: #0090865b;
@@ -52,13 +52,19 @@ th {
   transition: background-color 0.3s ease;
 }
 
-.cancel-button {
+.cancel-button1 {
   background-color: #dc3545;
   color: white;
 }
 
 .cancel-button:hover {
   background-color: #c82333;
+}
+.save-record {
+  background-color: #00A97F;
+}
+.save-record:hover {
+  background-color: #037559;
 }
 .form {
   margin-top: 10px;
