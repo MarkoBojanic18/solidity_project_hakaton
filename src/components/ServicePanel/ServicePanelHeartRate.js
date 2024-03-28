@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from "react";
 import "./ServicePanel.css";
 import PatientABI from "../../contracts/Patient.json";
@@ -29,6 +31,9 @@ const ServicePanelHeartRate = ({ web3, patient_account, RecordFactoryAddress }) 
   };
 
   const saveHeartRate = async () => {
+    if( heartRate == 0){
+alert ("You must first measure heart rate")
+    }
     if (!isSaved && heartRate !== 0) {
       // Simulating saving heart rate to an array (replace with actual saving logic)
       setHeartRates([
@@ -98,13 +103,13 @@ const ServicePanelHeartRate = ({ web3, patient_account, RecordFactoryAddress }) 
           </p>
         </div>
         <div className="button-group-measure">
-          <button className="button-measure measure-btn" onClick={measureAgain}>
+          <button className="button-measure" onClick={measureAgain}>
             Measure Heart Rate
           </button>
-          <button className="button-measure save-measure-btn" onClick={saveHeartRate}>
+          <button className="button-measure" onClick={saveHeartRate}>
             Save
           </button>
-          <button className="button-measure history-btn">Show history</button>
+          <button className="button-measure">Show history</button>
         </div>
       </div>
 

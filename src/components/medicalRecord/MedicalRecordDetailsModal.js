@@ -116,7 +116,7 @@ const MedicalRecordDetailsModal = ({
               <td>{medicalRecord.doctorSignature}</td>
             </tr>
             <tr>
-              <td>Medical Person who can see recipe</td>
+              <td>Pharmacist who can see recipe</td>
               <td>{medicalRecord.doctorWhoCanSeeRecipe}</td>
             </tr>
 
@@ -124,7 +124,7 @@ const MedicalRecordDetailsModal = ({
               <input
                 className="input"
                 name="doctorWhoCanSeeRecipe"
-                placeholder="Enter a doctor with access"
+                placeholder="Enter a  pharmacist with access"
                 required=""
                 type="text"
                 onChange={handleChange}
@@ -139,10 +139,10 @@ const MedicalRecordDetailsModal = ({
             /> */}
           </tbody>
         </table>
-        <button className="cancel-button save-record" onClick={handleSubmit}>
+        <button className="cancel-button" onClick={handleSubmit}>
           Save
         </button>
-        <button className="cancel-button cancel-button1" onClick={onClose}>
+        <button className="cancel-button" onClick={onClose}>
           Cancel
         </button>
       </div>

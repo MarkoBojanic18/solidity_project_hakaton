@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import './ServicePanel.css';
 function ServicePanelAppointments() {
@@ -13,7 +12,7 @@ function ServicePanelAppointments() {
     const handleZakaziTermin = () => {
 
         if (!datum || !rola || !lekar) {
-            setStatus("Niste izabrali sve potrebne informacije.");
+            setStatus("You didn't choose all the necessary information.");
             return;
           }
         const danas = new Date();
@@ -24,7 +23,7 @@ function ServicePanelAppointments() {
           return;
         }
     
-        setStatus(`Zakazan termin za ${datum} kod ${lekar} u ${termin}.`);
+        setStatus(`Appointment is schedualed for ${datum} with ${lekar} , ${termin}.`);
        
       };
   
@@ -33,7 +32,7 @@ function ServicePanelAppointments() {
       setRola(selectedRole);
       // Ovde možete postaviti logiku za dohvatanje dostupnih lekara za izabranu rolu
       // Na primer, API poziv ili predefinisane liste lekara za određenu rolu
-      if (selectedRole === 'endokrinolog') {
+      if (selectedRole === 'cardiolog') {
         setDostupniLekari(['Ana Lazarevic', 'Milica Tomic', 'Igor Knezevic']);
       } else if (selectedRole === 'specijalista') {
         setDostupniLekari(['Andrej Ilic', 'Uros Markovic', 'Lana Simic']);
@@ -52,7 +51,7 @@ function ServicePanelAppointments() {
         <p>Choose medicine field:</p>
         <select className="select-field" id="role" value={rola} onChange={handleRolaChange}>
         <option value="">Choose role</option>
-          <option value="endokrinolog">Endocrinologist</option>
+          <option value="cardiolog">Cardiologist</option>
           <option value="specijalista">General Practitioner</option>
         </select>
   
@@ -89,3 +88,5 @@ function ServicePanelAppointments() {
   }
 
 export default ServicePanelAppointments
+
+

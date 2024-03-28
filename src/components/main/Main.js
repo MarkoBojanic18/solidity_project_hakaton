@@ -9,9 +9,9 @@ const Main = () => {
   const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
 
-  const RecordFactoryAddress = "0xc6B8d4499F68Bceb9b73f0ec7C1F1126A0c50BaE";
+  const RecordFactoryAddress = "0x1ddaB301211e74A5E5c16b0d39873d4Ee3297180";
   const MedicalPersonFactoryAddress =
-    "0xdeD86Bc19d149A625EB42A3DfbD4b668df57675b";
+    "0x54D5AdF17a1f862b024550D5dC59277cD31A7A64";
   const sepoliaRPCUrl =
     "https://sepolia.infura.io/v3/67bc1009f5a547cc978659e13579ddf0";
 

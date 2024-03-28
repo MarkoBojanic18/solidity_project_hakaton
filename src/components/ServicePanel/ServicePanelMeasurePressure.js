@@ -1,10 +1,10 @@
+import PressureAnimation from "../../components/assets/servicesIcons/Animation3.gif";
+import Animation2 from "../../components/assets/servicesIcons/Animation - Beat.gif";
 import React, { useState, useEffect } from "react";
 import "./ServicePanel.css";
 import PatientABI from "../../contracts/Patient.json";
 import MedicalPersonFactoryABI from "../../contracts/MedicalPersonFactory.json";
 import "./ServicePanel.css";
-import PressureAnimation from "../../components/assets/servicesIcons/Animation3.gif";
-import Animation2 from "../../components/assets/servicesIcons/Animation - Beat.gif";
 
 
 const ServicePanelMeasurePressure = ({ web3, patient_account, RecordFactoryAddress }) => {
@@ -35,6 +35,9 @@ const ServicePanelMeasurePressure = ({ web3, patient_account, RecordFactoryAddre
   };
 
   const saveBodyPressure = async () => {
+    if( bodyPressure == null){
+      alert ("You must first measure blood pressure")
+          }
     if (!isSaved && bodyPressure !== null) {
       // Simulating saving body pressure to an array (replace with actual saving logic)
       setBodyPressures([
@@ -68,7 +71,6 @@ const ServicePanelMeasurePressure = ({ web3, patient_account, RecordFactoryAddre
 
       console.log("Transaction Hash:", txHash);
 
-
       setIsSaved(true);
       showToast("Body pressure saved successfully");
     }
@@ -101,14 +103,14 @@ const ServicePanelMeasurePressure = ({ web3, patient_account, RecordFactoryAddre
           )}
         </div>
         <div className="button-group-measure">
-          <button className="button-measure measure-btn" onClick={measureAgain}>
-            Measure Body Pressure
+          <button className="button-measure" onClick={measureAgain}>
+            Measure Blood Pressure
           </button>
           
-          <button className="button-measure save-measure-btn" onClick={saveBodyPressure}>
+          <button className="button-measure" onClick={saveBodyPressure}>
             Save
           </button>
-          <button className="button-measure history-btn">Show history</button>
+          <button className="button-measure">Show history</button>
         </div>
       </div>
 
@@ -127,3 +129,5 @@ const ServicePanelMeasurePressure = ({ web3, patient_account, RecordFactoryAddre
 };
 
 export default ServicePanelMeasurePressure;
+
+
