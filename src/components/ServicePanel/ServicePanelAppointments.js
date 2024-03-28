@@ -44,21 +44,22 @@ function ServicePanelAppointments() {
     };
   
     return (
+      <div className="appointment-panel-center">
       <div className="appointment-panel">
-        <label htmlFor="calendar">Choose date:</label>
-        <input className="select-input" type="date" id="calendar" value={datum} onChange={(e) => setDatum(e.target.value)} />
+        <p>Choose date:</p>
+        <input className="date-picker" type="date" id="calendar" value={datum} onChange={(e) => setDatum(e.target.value)} />
   
-        <label htmlFor="role">Choose medicine field</label>
-        <select className="select-input" id="role" value={rola} onChange={handleRolaChange}>
+        <p>Choose medicine field:</p>
+        <select className="select-field" id="role" value={rola} onChange={handleRolaChange}>
         <option value="">Choose role</option>
           <option value="endokrinolog">Endocrinologist</option>
           <option value="specijalista">General Practitioner</option>
         </select>
   
         {rola && (
-          <div>
-            <label htmlFor="doctor">Choose doctor:</label>
-            <select  className="select-input" id="doctor" value={lekar} onChange={(e) => setLekar(e.target.value)}>
+          <div className="doctor-appointment-wrapper">
+            <p>Choose doctor: </p>
+            <select  className="select-field" id="doctor" value={lekar} onChange={(e) => setLekar(e.target.value)}>
               {dostupniLekari.map((doc, index) => (
                 <option key={index} value={doc}>{doc}</option>
               ))}
@@ -66,8 +67,8 @@ function ServicePanelAppointments() {
           </div>
         )}
   
-        <label htmlFor="time">Choose hour:</label>
-        <select className="select-input" id="time" value={termin} onChange={(e) => setTermin(e.target.value)}>
+        <p>Choose time: </p>
+        <select className="select-field" id="time" value={termin} onChange={(e) => setTermin(e.target.value)}>
           <option value="9:00">9:00 - 9.30</option>
           <option value="10:00">10:00 - 10.30</option>
           <option value="11:00">11:00 - 11.30</option>
@@ -82,6 +83,7 @@ function ServicePanelAppointments() {
         Make an appointment
         </button>
         <p>{status}</p>
+      </div>
       </div>
     );
   }

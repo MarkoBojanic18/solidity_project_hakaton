@@ -152,7 +152,6 @@ function HomePage() {
           patient_account={patient_account}
           web3={web3}
         ></ServicesList>
-        <BlankPanel></BlankPanel>
       </div>
     </div>
   );

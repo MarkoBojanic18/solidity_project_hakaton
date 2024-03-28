@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PatientABI from "../../contracts/Patient.json";
 import MedicalPersonFactoryABI from "../../contracts/MedicalPersonFactory.json";
+import "./ServicePanel.css";
 
 function ServicePanelDoctor({ web3, patient_account, RecordFactoryAddress }) {
 
@@ -200,24 +201,26 @@ function ServicePanelDoctor({ web3, patient_account, RecordFactoryAddress }) {
     }, []);
 
     return (
-        <div>
-            {setShowMainDoctorLabel && <p>Main Doctor: {mainDoctor.last_name}/{mainDoctor.first_name} /{mainDoctor.medicalPersonAddress}/</p>}
-            <label>Select General practitioner:</label>
-            <select medicalPersonAddress={selectedPractitionerAdress} onChange={handleSelectChange}>
+        <div className="doctor-panel">
+            {setShowMainDoctorLabel && <p className="main-doc">Main Doctor: {mainDoctor.last_name}/{mainDoctor.first_name} /{mainDoctor.medicalPersonAddress}/</p>}
+            <p>Select General practitioner:</p>
+            <div className="select-btn-wrapper">
+            <select className="select-field" medicalPersonAddress={selectedPractitionerAdress} onChange={handleSelectChange}>
                 {practitioners.map((doctor, index) => (
                     <option key={index} value={doctor.medicalPersonAddress}> {doctor.last_name}/{doctor.first_name} /{doctor.medicalPersonAddress}</option>
                 ))}
             </select>
-            <button onClick={handleChangeMainDoctor}>Save main doctor</button>
-            <br></br>
-            <br></br>
-            <br></br>
-            <select medicalPersonAddress={selectedMedicalPerson} onChange={handleSelectChangeMedicalPerson}>
+            <button className="button" onClick={handleChangeMainDoctor}>Save main doctor</button>
+            </div>
+           <p>Choose medical person to share data:</p>
+           <div className="select-btn-wrapper">
+            <select className="select-field" medicalPersonAddress={selectedMedicalPerson} onChange={handleSelectChangeMedicalPerson}>
                 {allMedicalPersons.map((medicalPerson, index) => (
                     <option key={index} value={medicalPerson.medicalPersonAddress}>{medicalPerson.roleName} {medicalPerson.last_name}/{medicalPerson.first_name} /{medicalPerson.medicalPersonAddress}</option>
                 ))}
             </select>
-            <button onClick={AddMedicalPersonWithAccess}>Share data with chosen medical person</button>
+            <button className="button" onClick={AddMedicalPersonWithAccess}>Share data</button>
+            </div>
             <table>
                 <thead>
                     <tr>

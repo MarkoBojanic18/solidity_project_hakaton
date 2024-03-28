@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./ServicePanel.css";
 import PatientABI from "../../contracts/Patient.json";
 import MedicalPersonFactoryABI from "../../contracts/MedicalPersonFactory.json";
+import "./ServicePanel.css";
+import PressureAnimation from "../../components/assets/servicesIcons/Animation3.gif";
+import Animation2 from "../../components/assets/servicesIcons/Animation - Beat.gif";
 
 
 const ServicePanelMeasurePressure = ({ web3, patient_account, RecordFactoryAddress }) => {
@@ -78,8 +81,11 @@ const ServicePanelMeasurePressure = ({ web3, patient_account, RecordFactoryAddre
 
   return (
     <div className="container_measure">
-      <div>
+      <div className="measure-wrapper">
         <h1>Measure your body pressure</h1>
+
+        <img src={Animation2}></img>
+
         <div className="body-pressure-display">
           {!buttonIsClicked ? (
             bodyPressure !== null ? (
@@ -98,6 +104,7 @@ const ServicePanelMeasurePressure = ({ web3, patient_account, RecordFactoryAddre
           <button className="button-measure" onClick={measureAgain}>
             Measure Body Pressure
           </button>
+          
           <button className="button-measure" onClick={saveBodyPressure}>
             Save
           </button>

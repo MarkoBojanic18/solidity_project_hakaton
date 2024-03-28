@@ -7,6 +7,10 @@ import Medicine from "../../components/assets/servicesIcons/medicine.png";
 import Laboratory from "../../components/assets/servicesIcons/blood-test.png";
 import Appointment from "../../components/assets/servicesIcons/appointment.png";
 import Insurance from "../../components/assets/servicesIcons/health-insurance.png";
+import Doctor from "../../components/assets/servicesIcons/doctor.png";
+import HeartRate from "../../components/assets/servicesIcons/heart.png";
+import BloodPressure from "../../components/assets/servicesIcons/blood-pressure.png";
+
 import RecordFactoryABI from "../../contracts/RecordFactory.json";
 import ServicePanelAppointments from "../ServicePanel/ServicePanelAppointments";
 import ServicePanelHealthInsurance from "../ServicePanel/ServicePanelHealthInsurance";
@@ -63,15 +67,16 @@ function ServicesList(props) {
   };
 
   return (
+    <div className="services-list-panel-wrapper">
     <div className="services-list">
        <div className="services-list9" onClick={() => handleServiceClick(9)}>
-        <Service Icon={Insurance} Desc={"Doctors"}></Service>
+        <Service Icon={Doctor} Desc={"Doctors"}></Service>
       </div>
       <div className="services-list7" onClick={() => handleServiceClick(7)}>
-        <Service Icon={Insurance} Desc={"Measure heart rate"}></Service>
+        <Service Icon={HeartRate} Desc={"Check heart rate"}></Service>
       </div>
       <div className="services-list8" onClick={() => handleServiceClick(8)}>
-        <Service Icon={Insurance} Desc={"Measure body pressure"}></Service>
+        <Service Icon={BloodPressure} Desc={"Check blood pressure"}></Service>
       </div>
       <div className="services-list1" onClick={() => handleServiceClick(1)}>
         <Service Icon={Diagnosis} Desc={"Medical Records"}></Service>
@@ -91,7 +96,9 @@ function ServicesList(props) {
       <div className="services-list6" onClick={() => handleServiceClick(6)}>
         <Service Icon={Insurance} Desc={"Health insurance"}></Service>
       </div>
-
+    </div>
+      
+      <div className="services-open-wrapper">
       {showPanelMedicalRecord && (
         <ServicePanelMedicalRecord
           RecordFactoryAddress={props.RecordFactoryAddress}
@@ -119,9 +126,9 @@ function ServicesList(props) {
       )}
       {showPanelLaboratory && (
         <ServicePanelLaboratory
-          RecordFactoryAddress={props.RecordFactoryAddress}
-          patient_account={props.patient_account}
-          web3={props.web3}
+          // RecordFactoryAddress={props.RecordFactoryAddress}
+          // patient_account={props.patient_account}
+          // web3={props.web3}
           onClose={() => setshowPanelLaboratory(false)}
         />
       )}
@@ -165,7 +172,8 @@ function ServicesList(props) {
           onClose={() => setshowPanelDoctors(false)}
         />
       )}
-    </div>
+      </div>
+      </div>
   );
 }
 

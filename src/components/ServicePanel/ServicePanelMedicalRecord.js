@@ -178,15 +178,16 @@ const ServicePanelMedicalRecord = ({
   return (
     <div className="client-list">
       <h1 className="client-list-title">Medical Records</h1>
-      <label htmlFor="calendar">Choose date:</label>
-      <input
+      <div className="date-select-wrapper">
+      <p>Choose date:</p>
+      <input className="date-picker"
         type="date"
         id="calendar"
         value={datum}
         onChange={(e) => setDatum(e.target.value)}
       />
-
-      <select
+    <p>Select report:</p>
+      <select className="select-field"
         value={selectedDiagnosis}
         onChange={(e) => setSelectedDiagnosis(e.target.value)}
       >
@@ -196,7 +197,8 @@ const ServicePanelMedicalRecord = ({
           </option>
         ))}
       </select>
-
+      </div>
+      <div className="med-rec-btn-wrapper">
       <button className="modal-button" onClick={handleSubmitDate}>
         <span className="box">Show records by date</span>
       </button>
@@ -206,6 +208,7 @@ const ServicePanelMedicalRecord = ({
       <button className="modal-button" onClick={handleSubmitAllRecords}>
         <span className="box">Show all records</span>
       </button>
+      </div>
       <table>
         <thead>
           <tr>
