@@ -24,7 +24,7 @@ import ServicePanelDoctor from "../ServicePanel/ServicePanelDoctor";
 
 function ServicesList(props) {
   const [showPanelAppointments, setshowPanelAppointments] = useState(false);
-  const [showPanelMedicalRecord, setshowPanelMedicalRecord] = useState(false);
+  const [showPanelMedicalRecord, setshowPanelMedicalRecord] = useState(true);
   const [showPanelImunnisation, setshowPanelImunnisation] = useState(false);
   const [showPanelMedicine, setshowPanelMedicine] = useState(false);
   const [showPanelLaboratory, setshowPanelLaboratory] = useState(false);
@@ -34,7 +34,7 @@ function ServicesList(props) {
   const [showPanelMeasurePressure, setshowPanelMeasurePressure] =
     useState(false);
     const [showPanelDoctors, setshowPanelDoctors] =
-    useState(true);
+    useState(false);
 
   const handleServiceClick = (id) => {
     if (id == 1) {
