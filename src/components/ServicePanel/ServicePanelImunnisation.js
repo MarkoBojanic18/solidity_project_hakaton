@@ -52,8 +52,8 @@ const ServicePanelImunnisation = ({ web3 }) => {
   const sortedImmunisations = [...immunisations].sort((a, b) => {
     if (sortCriteria === "typeOfImmun") {
       return sortDirection === "asc"
-        ? a.typeOfRecord.localeCompare(b.typeOfImmun)
-        : b.typeOfRecord.localeCompare(a.typeOfImmun);
+        ? a.typeOfImmun.localeCompare(b.typeOfImmun)
+        : b.typeOfImmun.localeCompare(a.typeOfImmun);
     } else if (sortCriteria === "date_time_of_imun") {
       return sortDirection === "asc"
         ? new Date(Number(a.date_time_of_imun)) -

@@ -11,7 +11,7 @@ const MedicalRecordDetailsModal = ({
 }) => {
   const [medicalReordData, setMedicalRecordData] = useState({
     id: Number(medicalRecord.id),
-    doctorWhoCanSeeRecipe: medicalRecord.doctorWhoCanSeeRecipe,
+    medicalPersonWhoCanSeeRecipe: medicalRecord.medicalPersonWhoCanSeeRecipe,
   });
 
   function formatDate(_date) {
@@ -58,7 +58,7 @@ const MedicalRecordDetailsModal = ({
         data: recordFactory.methods
           .changeMedicalRecordForPatient(
             medicalReordData.id,
-            medicalReordData.doctorWhoCanSeeRecipe
+            medicalReordData.medicalPersonWhoCanSeeRecipe
           )
           .encodeABI({ from: patient_account }),
       }; // call to contract method
@@ -117,13 +117,13 @@ const MedicalRecordDetailsModal = ({
             </tr>
             <tr>
               <td>Pharmacist who can see recipe</td>
-              <td>{medicalRecord.doctorWhoCanSeeRecipe}</td>
+              <td>{medicalRecord.medicalPersonWhoCanSeeRecipe}</td>
             </tr>
 
             <div className="form">
               <input
                 className="input"
-                name="doctorWhoCanSeeRecipe"
+                name="medicalPersonWhoCanSeeRecipe"
                 placeholder="Enter a  pharmacist with access"
                 required=""
                 type="text"
@@ -139,10 +139,10 @@ const MedicalRecordDetailsModal = ({
             /> */}
           </tbody>
         </table>
-        <button className="cancel-button" onClick={handleSubmit}>
+        <button className="cancel-button save-record" onClick={handleSubmit}>
           Save
         </button>
-        <button className="cancel-button" onClick={onClose}>
+        <button className="cancel-button cancel-button1" onClick={onClose}>
           Cancel
         </button>
       </div>

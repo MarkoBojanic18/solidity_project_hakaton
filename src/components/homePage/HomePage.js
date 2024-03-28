@@ -144,6 +144,7 @@ function HomePage() {
         weight={weight}
         donor={donor}
         loadPatientData={loadPatientData}
+        web3={web3}
       />
       <div className="services-container">
         <ServicesList

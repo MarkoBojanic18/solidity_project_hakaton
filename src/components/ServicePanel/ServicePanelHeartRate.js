@@ -1,16 +1,21 @@
-
-
 import React, { useState, useEffect } from "react";
 import "./ServicePanel.css";
 import PatientABI from "../../contracts/Patient.json";
 import MedicalPersonFactoryABI from "../../contracts/MedicalPersonFactory.json";
 
-const ServicePanelHeartRate = ({ web3, patient_account, RecordFactoryAddress }) => {
+const ServicePanelHeartRate = ({
+  web3,
+  patient_account,
+  RecordFactoryAddress,
+}) => {
   const [heartRate, setHeartRate] = useState(0);
   const [heartRates, setHeartRates] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
   const patient = sessionStorage.getItem("patient");
+  const [heartRatesHistory, setHeartRatesHistory] = useState([]);
+  const [sortCriteria, setSortCriteria] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
 
   useEffect(() => {}, []);
 
@@ -22,6 +27,23 @@ const ServicePanelHeartRate = ({ web3, patient_account, RecordFactoryAddress }) 
     }, 5000); // Display after 5 seconds
   };
 
+  const showHistory = async () => {
+    try {
+      const patientFactory = new web3.eth.Contract(PatientABI.abi, patient);
+
+      const historyRecordsFromContract = await patientFactory.methods
+        .getHeartRateList()
+        .call();
+      console.log(historyRecordsFromContract);
+      setHeartRatesHistory(historyRecordsFromContract);
+    } catch (error) {
+      console.error(
+        "Error while loading heart rate history for patient:",
+        error
+      );
+    }
+  };
+
   const measureAgain = () => {
     setButtonIsClicked(true);
     setHeartRate(0);
@@ -30,9 +52,50 @@ const ServicePanelHeartRate = ({ web3, patient_account, RecordFactoryAddress }) 
     measureHeartRate();
   };
 
+  function formatDate(_date) {
+    // Convert Unix timestamp to milliseconds
+    const milliseconds = _date * 1000;
+
+    // Create a new Date object with the converted milliseconds
+    const dateObject = new Date(milliseconds);
+
+    // Extract individual date and time components
+    const date = dateObject.toLocaleDateString();
+    const time = dateObject.toLocaleTimeString();
+
+    const date_time = date + " " + time;
+
+    return date_time;
+  }
+
+  const sortBy = (key) => {
+    if (sortCriteria === key) {
+      // If already sorting by the same criteria, reverse direction
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      // If sorting by a new criteria, set the criteria and direction
+      setSortCriteria(key);
+      setSortDirection("asc");
+    }
+  };
+
+  const sortedHeartRatesHistory = [...heartRatesHistory].sort((a, b) => {
+    if (sortCriteria === "rate") {
+      return sortDirection === "asc"
+        ? Number(a.rate) - Number(b.rate)
+        : Number(b.rate) - Number(a.rate);
+    } else if (sortCriteria === "date_time") {
+      return sortDirection === "asc"
+        ? Number(a.date_time) - Number(b.date_time)
+        : Number(b.date_time) - Number(a.date_time);
+    }
+    // If no sorting criteria is selected, return original order
+    return 0;
+  });
+
   const saveHeartRate = async () => {
-    if( heartRate == 0){
-alert ("You must first measure heart rate")
+    if (heartRate == 0) {
+      alert("You must first measure heart rate");
     }
     if (!isSaved && heartRate !== 0) {
       // Simulating saving heart rate to an array (replace with actual saving logic)
@@ -41,30 +104,30 @@ alert ("You must first measure heart rate")
         { value: heartRate, timestamp: new Date() },
       ]);
 
-      const patientContract= new web3.eth.Contract(PatientABI.abi, patient);
+      try {
+        const patientContract = new web3.eth.Contract(PatientABI.abi, patient);
 
-      const transactionParameters = {
-        to: patient,
-        from: patient_account, // must match user's active address
-        data: patientContract.methods
-        .addHeartRateToTheList(
-         heartRate
-         )
-         .encodeABI({ from: patient_account }),
-     }; // call to contract method
-        
+        const transactionParameters = {
+          to: patient,
+          from: patient_account, // must match user's active address
+          data: patientContract.methods
+            .addHeartRateToTheList(heartRate)
+            .encodeABI({ from: patient_account }),
+        }; // call to contract method
 
-      // txHash is a hex string
-      const txHash = await window.ethereum.request({
-        method: "eth_sendTransaction",
-        params: [transactionParameters],
-      });
+        // txHash is a hex string
+        const txHash = await window.ethereum.request({
+          method: "eth_sendTransaction",
+          params: [transactionParameters],
+        });
 
-      console.log("Transaction Hash:", txHash);
-      
+        console.log("Transaction Hash:", txHash);
 
-      setIsSaved(true);
-      showToast("Heart rate saved successfully");
+        setIsSaved(true);
+        showToast("Heart rate saved successfully");
+      } catch (error) {
+        console.error("Error during saving heart rate", error);
+      }
     }
   };
 
@@ -103,13 +166,18 @@ alert ("You must first measure heart rate")
           </p>
         </div>
         <div className="button-group-measure">
-          <button className="button-measure" onClick={measureAgain}>
+          <button className="button-measure measure-btn" onClick={measureAgain}>
             Measure Heart Rate
           </button>
-          <button className="button-measure" onClick={saveHeartRate}>
+          <button
+            className="button-measure save-measure-btn"
+            onClick={saveHeartRate}
+          >
             Save
           </button>
-          <button className="button-measure">Show history</button>
+          <button className="button-measure history-btn" onClick={showHistory}>
+            Show history
+          </button>
         </div>
       </div>
 
@@ -122,6 +190,31 @@ alert ("You must first measure heart rate")
           ))}
         </ul>
       )}
+
+      <table>
+        <thead>
+          <tr>
+            <th onClick={() => sortBy("rate")}>
+              Heart Rate{" "}
+              {sortCriteria === "rate" && sortDirection === "asc" && "↑"}
+              {sortCriteria === "rate" && sortDirection === "desc" && "↓"}
+            </th>
+            <th onClick={() => sortBy("date_time")}>
+              Date{" "}
+              {sortCriteria === "date_time" && sortDirection === "asc" && "↑"}
+              {sortCriteria === "date_time" && sortDirection === "desc" && "↓"}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedHeartRatesHistory.map((HR, index) => (
+            <tr key={index}>
+              <td>{Number(HR.rate)}</td>
+              <td>{formatDate(Number(HR.date_time))}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

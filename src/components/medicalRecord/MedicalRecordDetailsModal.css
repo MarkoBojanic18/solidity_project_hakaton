@@ -7,13 +7,13 @@
   min-width: 600px;
   margin-top: 10px;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 table {
   font-family: monospace;
   border-collapse: collapse;
   width: 100%;
-
 }
 thead {
   background-color: #0090865b;
@@ -50,6 +50,7 @@ th {
   font-weight: bold;
   margin: 5px;
   transition: background-color 0.3s ease;
+  color: white;
 }
 
 .cancel-button1 {
@@ -61,7 +62,7 @@ th {
   background-color: #c82333;
 }
 .save-record {
-  background-color: #00A97F;
+  background-color: #00a97f;
 }
 .save-record:hover {
   background-color: #037559;
@@ -75,9 +76,9 @@ th {
   --input-hovered-color: #2b8a841f;
   position: relative;
   width: var(--width-of-input);
- }
- /* styling of Input */
- .input {
+}
+/* styling of Input */
+.input {
   color: black;
   font-size: 0.9rem;
   background-color: transparent;
@@ -87,9 +88,9 @@ th {
   padding-block: 0.7em;
   border: none;
   border-bottom: var(--border-height) solid var(--border-before-color);
- }
- /* styling of animated border */
- .input-border {
+}
+/* styling of animated border */
+.input-border {
   position: absolute;
   background: var(--border-after-color);
   width: 0%;
@@ -97,21 +98,21 @@ th {
   bottom: 0;
   left: 0;
   transition: 0.3s;
- }
- /* Hover on Input */
- input:hover {
+}
+/* Hover on Input */
+input:hover {
   background: var(--input-hovered-color);
- }
- 
- input:focus {
+}
+
+input:focus {
   outline: none;
- }
- /* here is code of animated border */
- input:focus ~ .input-border {
+}
+/* here is code of animated border */
+input:focus ~ .input-border {
   width: 100%;
- }
- /* === if you want to do animated border on typing === */
- /* remove input:focus code and uncomment below code */
- /* input:valid ~ .input-border{
+}
+/* === if you want to do animated border on typing === */
+/* remove input:focus code and uncomment below code */
+/* input:valid ~ .input-border{
    width: 100%;
  } */

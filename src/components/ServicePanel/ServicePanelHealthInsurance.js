@@ -47,9 +47,15 @@ const ServicePanelHealthInsurance = ({ web3 }) => {
         : b.insuranceCoverage.localeCompare(a.insuranceCoverage);
     } else if (sortCriteria === "insuranceIsPaid") {
       return sortDirection === "asc"
-        ? a.insuranceIsPaid.localeCompare(b.insuranceIsPaid)
-        : b.insuranceIsPaid.localeCompare(a.insuranceIsPaid);
+        ? Number(a.insuranceIsPaid) - Number(b.insuranceIsPaid)
+        : Number(b.insuranceIsPaid) - Number(a.insuranceIsPaid);
     }
+
+    // else if (sortCriteria === "insuranceIsPaid") {
+    //   return sortDirection === "asc"
+    //     ? a.insuranceIsPaid.localeCompare(b.insuranceIsPaid)
+    //     : b.insuranceIsPaid.localeCompare(a.insuranceIsPaid);
+    // }
     // If no sorting criteria is selected, return original order
     return 0;
   });

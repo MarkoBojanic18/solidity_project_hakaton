@@ -19,6 +19,7 @@ function NavbarHomePage({
   weight,
   donor,
   loadPatientData,
+  web3,
 }) {
   // Stanje koje će označiti da li je modal otvoren
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -36,14 +37,19 @@ function NavbarHomePage({
     <div className="navbarHomePage">
       <img src={logo} className="logo" onClick={loadPatientData} />
       <ul className="navbarHomePageList">
-        <li>Logged as:{patient_account}</li>
+        <li>
+          Logged as:
+          {patient_account
+            ? patient_account
+            : "0xA8c9D6d03E3a29C843DD27442d0aE7651B8D89C5"}
+        </li>
 
         <Link to={"/"} className="logout-button">
           <p>Logout</p>
         </Link>
         <img
           className="avatar"
-          src={gender === "male" ? manPicture : femalePicture}
+          src={gender === "female" ? femalePicture : manPicture}
           alt=""
           onClick={openModal}
         />
@@ -63,6 +69,8 @@ function NavbarHomePage({
           height={height}
           weight={weight}
           donor={donor}
+          patient_account={patient_account}
+          web3={web3}
         />
       )}
     </div>

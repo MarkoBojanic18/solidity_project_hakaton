@@ -179,36 +179,48 @@ const ServicePanelMedicalRecord = ({
     <div className="client-list">
       <h1 className="client-list-title">Medical Records</h1>
       <div className="date-select-wrapper">
-      <p>Choose date:</p>
-      <input className="date-picker"
-        type="date"
-        id="calendar"
-        value={datum}
-        onChange={(e) => setDatum(e.target.value)}
-      />
-    <p>Select report:</p>
-      <select className="select-field"
-        value={selectedDiagnosis}
-        onChange={(e) => setSelectedDiagnosis(e.target.value)}
-      >
-        {diagnosesList.map((diagnosis, index) => (
-          <option key={index} value={diagnosis}>
-            {diagnosis}
-          </option>
-        ))}
-      </select>
+        <p>Choose date:</p>
+        <input
+          className="date-picker"
+          type="date"
+          id="calendar"
+          value={datum}
+          onChange={(e) => setDatum(e.target.value)}
+        />
+        <p>Select report:</p>
+        <select
+          className="select-field"
+          value={selectedDiagnosis}
+          onChange={(e) => setSelectedDiagnosis(e.target.value)}
+        >
+          {diagnosesList.map((diagnosis, index) => (
+            <option key={index} value={diagnosis}>
+              {diagnosis}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="med-rec-btn-wrapper">
-      <button className="modal-button" onClick={handleSubmitDate}>
-        <span className="box">Show records by date</span>
-      </button>
-      <button className="modal-button" onClick={handleSubmitDiagnosis}>
-        <span className="box">Show records by diagnosis</span>
-      </button>
-      <button className="modal-button" onClick={handleSubmitAllRecords}>
-        <span className="box">Show all records</span>
-      </button>
+        <button className="modal-button" onClick={handleSubmitDate}>
+          <span className="box">Show records by date</span>
+        </button>
+        <button className="modal-button" onClick={handleSubmitDiagnosis}>
+          <span className="box">Show records by diagnosis</span>
+        </button>
+        <button className="modal-button" onClick={handleSubmitAllRecords}>
+          <span className="box">Show all records</span>
+        </button>
       </div>
+
+      {selectedMedicalRecord && (
+        <MedicalRecordDetailsModal
+          web3={web3}
+          patient_account={patient_account}
+          medicalRecord={selectedMedicalRecord}
+          onClose={() => setSelectedMedicalRecord(null)}
+          recordFactoryAddress={RecordFactoryAddress}
+        />
+      )}
       <table>
         <thead>
           <tr>
@@ -230,31 +242,21 @@ const ServicePanelMedicalRecord = ({
         </thead>
         <tbody>
           {sortedMedicalRecords.map((medicalRecord, index) => (
-            <tr key={index}   onClick={() => openDetailsModal(medicalRecord)}>
+            <tr key={index} onClick={() => openDetailsModal(medicalRecord)}>
               <td>{medicalRecord.typeOfRecord}</td>
               <td>{formatDate(Number(medicalRecord.date_time_of_record))}</td>
               <td>
-              <button
-                className="change-button button2"
-                onClick={() => openDetailsModal(medicalRecord)}
-              >
-                Details
-              </button>
+                <button
+                  className="change-button button2"
+                  onClick={() => openDetailsModal(medicalRecord)}
+                >
+                  Details
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      {selectedMedicalRecord && (
-        <MedicalRecordDetailsModal
-          web3={web3}
-          patient_account={patient_account}
-          medicalRecord={selectedMedicalRecord}
-          onClose={() => setSelectedMedicalRecord(null)}
-          recordFactoryAddress={RecordFactoryAddress}
-        />
-      )}
     </div>
   );
 };
